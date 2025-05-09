@@ -1,0 +1,16 @@
+# Alap függőségek
+aiohttp==3.8.6
+asyncio==3.4.3
+pytest==7.4.0
+pytest-asyncio==0.21.1
+pyyaml==6.0.1
+logging==0.4.9.6
+
+# VS Code integráció
+pylsp==0.0.1
+
+# Ollama integráció
+# Nincs specifikus Python könyvtár, az API-t közvetlenül használjuk
+
+# llama.cpp integráció (opcionális)
+llama-cpp-python==0.2.11
