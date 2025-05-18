@@ -1,11 +1,11 @@
 import asyncio
 import logging
+import time
 from typing import Dict, Any, Optional, Callable, Awaitable
 from core.command_router import router
 from core.event_bus import event_bus
 from utils.performance_monitor import monitor_performance
-from integrations.vscode_interface import VSCodeInterface
-from interfaces.dom_listener import dom_listener
+from utils.structured_logger import log_command_event
 
 logger = logging.getLogger(__name__)
 
@@ -28,12 +28,20 @@ class CentralExecutor:
             "post_execute": [],
             "error": []
         }
-        self.vscode = VSCodeInterface()  # Initialize VSCodeInterface
         logger.info("CentralExecutor initialized")
         
         # Register with the event bus for system events
         event_bus.subscribe("command.submitted", self._on_command_submitted)
-        event_bus.subscribe("command_channel", self.handle_command_event)
+    
+    async def initialize(self):
+        """
+        Initialize the executor subsystem.
+        This method is called during system startup.
+        """
+        logger.info("CentralExecutor initialization")
+        # Perform any necessary initialization tasks
+        # Currently, basic initialization is already done in __init__
+        return True
     
     async def submit(self, command: Dict[str, Any]) -> None:
         """
@@ -59,6 +67,16 @@ class CentralExecutor:
         Returns:
             Dict[str, Any]: The result of the command execution
         """
+        command_id = command.get("id", str(time.time()))
+        command_type = command.get("type", "UNKNOWN")
+        log_command_event(
+            event="command_started",
+            command_id=command_id,
+            command_type=command_type,
+            status="started",
+            context={"command": command}
+        )
+        start_time = time.time()
         try:
             # Run pre-execution hooks
             for hook in self._hooks["pre_execute"]:
@@ -75,8 +93,25 @@ class CentralExecutor:
             # Publish event for command execution result
             await event_bus.publish("command.executed", {"command": command, "result": result})
             
+            duration = time.time() - start_time
+            log_command_event(
+                event="command_completed",
+                command_id=command_id,
+                command_type=command_type,
+                status="success",
+                context={"result": result, "duration": duration}
+            )
+            
             return result
         except Exception as e:
+            duration = time.time() - start_time
+            log_command_event(
+                event="command_failed",
+                command_id=command_id,
+                command_type=command_type,
+                status="error",
+                context={"error": str(e), "duration": duration}
+            )
             logger.error(f"Error executing command: {str(e)}")
             error_data = {"command": command, "error": str(e)}
             
@@ -97,9 +132,6 @@ class CentralExecutor:
         """
         self.running = True
         logger.info("CentralExecutor started processing commands")
-
-        # Start the DOM listener
-        await dom_listener.start()
         
         try:
             while self.running:
@@ -107,7 +139,7 @@ class CentralExecutor:
                 command = await self.queue.get()
                 
                 # Execute it
-                asyncio.create_task(self.process_command(command))
+                await self.execute(command)
                 
                 # Mark the task as done
                 self.queue.task_done()
@@ -118,83 +150,6 @@ class CentralExecutor:
             logger.error(f"Error in CentralExecutor run loop: {str(e)}")
             self.running = False
             raise
-
-    async def process_command(self, command: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Process a command.
-        
-        Args:
-            command: The command to process
-            
-        Returns:
-            The result of processing the command
-        """
-        command_type = command.get("type")
-        logger.info(f"Processing command of type: {command_type}")
-        
-        try:
-            # Run pre-execution hooks
-            for hook in self._hooks["pre_execute"]:
-                await hook(command)
-
-            # Route the command to the appropriate handler
-            result = await router.route_command(command)
-
-            # Run post-execution hooks
-            for hook in self._hooks["post_execute"]:
-                await hook(command, result)
-
-            # Publish the result as an event
-            command_id = command.get("_id")
-            if command_id:
-                await event_bus.publish("result_channel", {
-                    "command_id": command_id,
-                    "result": result
-                })
-
-            return result
-        except Exception as e:
-            error = f"Error processing command: {str(e)}"
-            logger.error(error)
-
-            # Run error hooks
-            for hook in self._hooks["error"]:
-                await hook({"command": command, "error": error})
-
-            # Publish the error as an event
-            command_id = command.get("_id")
-            if command_id:
-                await event_bus.publish("result_channel", {
-                    "command_id": command_id,
-                    "error": error
-                })
-
-            return {"error": error}
-
-    async def handle_command_event(self, event: Dict[str, Any]) -> None:
-        """
-        Handle a command event from the event bus.
-        
-        Args:
-            event: The command event
-        """
-        command = event.get("command")
-        if not command:
-            logger.error("Received command event with no command")
-            return
-            
-        # Process the command
-        await self.process_command(command)
-
-    async def initialize(self) -> None:
-        """Initialize the central executor and its components."""
-        logger.info("Initializing central executor components")
-
-        # Submit an initialization command
-        await self.submit({
-            "type": "system",
-            "command": "init"
-        })
     
     def register_hook(self, hook_type: str, callback: Callable) -> None:
         """

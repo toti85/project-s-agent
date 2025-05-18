@@ -6,13 +6,15 @@ from typing import Dict, Callable, Any, List, Optional, Tuple
 from core.ai_command_handler import AICommandHandler, ai_handler
 from core.error_handler import error_handler
 from core.event_bus import event_bus
+from utils.structured_logger import log_command_event
+import time
 
 logger = logging.getLogger(__name__)
 
 class CommandRouter:
     def __init__(self):
         self.handlers = {}
-        self.ai_handler = AICommandHandler()
+        self.ai_handler = ai_handler  # Use the singleton instance from the import
         self.plugin_handlers = {}
         self.plugin_paths = []
         self.register_default_handlers()
@@ -23,6 +25,8 @@ class CommandRouter:
         self.register("CMD", self.ai_handler.handle_cmd_command)
         self.register("CODE", self.ai_handler.handle_code_command) 
         self.register("FILE", self.ai_handler.handle_file_command)
+        # Temporarily comment out PYTHON_FILE registration to allow system startup
+        # self.register("PYTHON_FILE", self.ai_handler.handle_python_file_command)
 
     def register(self, cmd_type: str, handler):
         self.handlers[cmd_type] = handler
@@ -198,24 +202,35 @@ class CommandRouter:
             return None
 
     async def route_command(self, command: dict):
-        cmd_type = command.get("type")
-        
-        if not cmd_type:
-            logger.error("Command missing 'type' field")
-            return {"error": "Missing command type"}
-            
-        logger.info(f"Received command of type: {cmd_type}")
-        print(f"[Router] Processing command: {cmd_type}")
-        
-        # Publish command received event
-        await event_bus.publish("command.received", command)
-        
-        handler = self.handlers.get(cmd_type)
-        if not handler:
-            logger.warning(f"No handler for command type: {cmd_type}")
-            return {"error": f"No handler for command type: {cmd_type}"}
-            
+        command_id = command.get("id", str(time.time()))
+        command_type = command.get("type", "UNKNOWN")
+        log_command_event(
+            event="command_routing_started",
+            command_id=command_id,
+            command_type=command_type,
+            status="started",
+            context={"command": command}
+        )
+        start_time = time.time()
         try:
+            # Normalize command type to uppercase for handler lookup
+            raw_type = command.get("type")
+            cmd_type = raw_type.upper() if isinstance(raw_type, str) else raw_type
+            if not cmd_type:
+                logger.error("Command missing 'type' field")
+                return {"error": "Missing command type"}
+                
+            logger.info(f"Received command of type: {cmd_type}")
+            print(f"[Router] Processing command: {cmd_type}")
+            
+            # Publish command received event
+            await event_bus.publish("command.received", command)
+            
+            handler = self.handlers.get(cmd_type)
+            if not handler:
+                logger.warning(f"No handler for command type: {cmd_type}")
+                return {"error": f"No handler for command type: {cmd_type}"}
+                
             result = await handler(command)
             
             # Publish command completed event
@@ -224,8 +239,25 @@ class CommandRouter:
                 "result": result
             })
             
+            duration = time.time() - start_time
+            log_command_event(
+                event="command_routing_completed",
+                command_id=command_id,
+                command_type=command_type,
+                status="success",
+                context={"result": result, "duration": duration}
+            )
+            
             return result
         except Exception as e:
+            duration = time.time() - start_time
+            log_command_event(
+                event="command_routing_failed",
+                command_id=command_id,
+                command_type=command_type,
+                status="error",
+                context={"error": str(e), "duration": duration}
+            )
             error_context = {"component": "router", "command_type": cmd_type}
             error_result = await error_handler.handle_error(e, error_context)
             

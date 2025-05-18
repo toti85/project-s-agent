@@ -1,108 +1,70 @@
-import logging
 import asyncio
-from typing import Dict, List, Any, Callable, Optional, Union
-from collections import defaultdict
+import logging
+from typing import Dict, List, Callable, Any, Awaitable
 
 logger = logging.getLogger(__name__)
 
-# Típus definíciók a jobb érthetőségért
-EventHandler = Callable[[Dict[str, Any]], Any]
-AsyncEventHandler = Callable[[Dict[str, Any]], asyncio.Future]
-AnyEventHandler = Union[EventHandler, AsyncEventHandler]
-
 class EventBus:
     """
-    Event bus for publish/subscribe pattern communication between components.
-    Allows loose coupling between components and event-driven architecture.
+    Event bus for the Project-S system implementing the publish/subscribe pattern.
+    Allows components to subscribe to events and publish events without direct coupling.
     """
     
     def __init__(self):
-        """Initialize the event bus."""
-        logger.info("Event bus initialized")
-        self.subscribers: Dict[str, List[AnyEventHandler]] = defaultdict(list)
-        
-    async def publish(self, channel: str, event: Dict[str, Any]) -> None:
+        """Initialize an empty event bus with no subscribers."""
+        self._subscribers: Dict[str, List[Callable[[Any], Awaitable[None]]]] = {}
+        logger.info("EventBus initialized")
+    
+    def subscribe(self, event_type: str, callback: Callable[[Any], Awaitable[None]]) -> None:
         """
-        Publish an event to a channel.
+        Subscribe to an event type with a callback function.
         
         Args:
-            channel: The channel to publish to
-            event: The event data to publish
+            event_type (str): The type of event to subscribe to
+            callback (Callable): An async function that will be called when the event occurs
         """
-        if not self.subscribers[channel]:
-            logger.debug(f"No subscribers for channel {channel}")
-            return
-            
-        logger.debug(f"Publishing event to channel {channel}: {event}")
+        if event_type not in self._subscribers:
+            self._subscribers[event_type] = []
         
-        # Create tasks for all subscribers
-        tasks = []
-        for handler in self.subscribers[channel]:
-            task = self._call_handler(handler, event)
-            if task:
-                tasks.append(task)
-                
-        # Wait for all tasks to complete if there are any
-        if tasks:
-            await asyncio.gather(*tasks, return_exceptions=True)
-            
-    async def _call_handler(self, handler: AnyEventHandler, event: Dict[str, Any]) -> Optional[asyncio.Task]:
+        self._subscribers[event_type].append(callback)
+        logger.info(f"Subscriber added for event type: {event_type}")
+    
+    def unsubscribe(self, event_type: str, callback: Callable[[Any], Awaitable[None]]) -> bool:
         """
-        Call an event handler with the event data.
+        Unsubscribe from an event type.
         
         Args:
-            handler: The handler to call
-            event: The event data to pass to the handler
+            event_type (str): The type of event to unsubscribe from
+            callback (Callable): The callback function to remove
             
         Returns:
-            A task if the handler is async, None otherwise
+            bool: True if the callback was found and removed, False otherwise
         """
-        try:
-            if asyncio.iscoroutinefunction(handler):
-                # Async handler
-                return asyncio.create_task(handler(event))
-            else:
-                # Sync handler
-                handler(event)
-                return None
-        except Exception as e:
-            logger.error(f"Error calling event handler: {str(e)}")
-            return None
-            
-    def subscribe(self, channel: str, handler: AnyEventHandler) -> None:
+        if event_type in self._subscribers and callback in self._subscribers[event_type]:
+            self._subscribers[event_type].remove(callback)
+            logger.info(f"Subscriber removed from event type: {event_type}")
+            return True
+        return False
+    
+    async def publish(self, event_type: str, event_data: Any = None) -> None:
         """
-        Subscribe to events on a channel.
+        Publish an event to all subscribers.
         
         Args:
-            channel: The channel to subscribe to
-            handler: The handler to call when an event is published to the channel
+            event_type (str): The type of event being published
+            event_data (Any, optional): Data associated with the event
         """
-        logger.debug(f"Subscribing to channel {channel}")
-        self.subscribers[channel].append(handler)
-        
-    def unsubscribe(self, channel: str, handler: AnyEventHandler) -> None:
-        """
-        Unsubscribe from events on a channel.
-        
-        Args:
-            channel: The channel to unsubscribe from
-            handler: The handler to remove
-        """
-        if handler in self.subscribers[channel]:
-            logger.debug(f"Unsubscribing from channel {channel}")
-            self.subscribers[channel].remove(handler)
+        logger.info(f"Publishing event: {event_type}")
+        if event_type in self._subscribers:
+            tasks = []
+            for callback in self._subscribers[event_type]:
+                tasks.append(asyncio.create_task(callback(event_data)))
             
-    def get_subscribers(self, channel: str) -> List[AnyEventHandler]:
-        """
-        Get all subscribers for a channel.
-        
-        Args:
-            channel: The channel to get subscribers for
-            
-        Returns:
-            The list of subscribers for the channel
-        """
-        return self.subscribers[channel]
+            if tasks:
+                # Wait for all subscribers to process the event
+                await asyncio.gather(*tasks, return_exceptions=True)
+        else:
+            logger.info(f"No subscribers for event type: {event_type}")
 
 # Create a singleton instance
 event_bus = EventBus()

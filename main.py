@@ -1,69 +1,100 @@
 import asyncio
 import logging
-import sys
+import os
+from core.command_router import router  # already initialized singleton
+from core.central_executor import executor
+from interfaces.dom_listener import dom_listener
+from integrations.vscode_cline_controller import VSCodeClineController
+from integrations.vscode_cline_router import register_vscode_cline_handlers
 
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    format='[%(asctime)s] [%(levelname)s] %(name)s - %(message)s',
     handlers=[
-        logging.StreamHandler(sys.stdout),
+        logging.StreamHandler(),
         logging.FileHandler('logs/system.log')
     ]
 )
+
 logger = logging.getLogger(__name__)
 
-# Import the main system components
-from core.central_executor import executor
-from core.cognitive_core import cognitive_core
-from core.event_bus import event_bus
-from interfaces.dom_listener import dom_listener
-from integrations.vscode_interface import VSCodeInterface
-
-async def startup():
-    """Initialize and start the Project-S agent system."""
+async def main():
+    """Main entry point for the Project-S agent."""
+    print("\n" + "="*50)
+    print("Project-S Agent")
+    print("="*50 + "\n")
+    
     try:
-        logger.info("Project-S agent starting up...")
+        # Start the DOM listener
+        await dom_listener.start()
+        logger.info("DOM listener started")
+        print("DOM listener is now active")
         
-        # Initialize the vscode interface
-        vscode = VSCodeInterface()
+        # Initialize VSCode Cline controller if enabled
+        vscode_cline_config = {
+            "enabled": True,
+            "openrouter": {
+                "enabled": True,
+                "model": "qwen/qwen-72b",
+                "api_key": "${OPENROUTER_API_KEY}"
+            },
+            "commands": {
+                "timeout": 60,
+                "auto_format": True,
+                "auto_save": True
+            },
+            "workflows": {
+                "enable_advanced": True,
+                "context_window_size": 12000
+            }
+        }
         
-        # Initialize the cognitive core
-        # (No explicit initialization needed as the subscription happens in the constructor)
+        # Only initialize VSCode Cline if API key is available
+        if os.environ.get("OPENROUTER_API_KEY"):
+            try:
+                vscode_cline_controller = VSCodeClineController(vscode_cline_config)
+                register_vscode_cline_handlers(router, vscode_cline_controller)
+                logger.info("VSCode Cline controller initialized and handlers registered")
+                print("VSCode Cline integration is active")
+            except Exception as e:
+                logger.error(f"Failed to initialize VSCode Cline controller: {e}")
+                print(f"VSCode Cline integration failed: {e}")
+        else:
+            logger.warning("OPENROUTER_API_KEY not found, VSCode Cline integration disabled")
+            print("VSCode Cline integration disabled (OPENROUTER_API_KEY not set)")
         
-        # Initialize the central executor
-        await executor.initialize()
+        # Start the command executor
+        executor_task = asyncio.create_task(executor.run())
+        logger.info("Command executor started")
+        print("Command executor is now running")
         
-        # Start the central executor
-        await executor.submit({"type": "system", "command": "init"})
+        # Test commands
+        await run_test_commands()
         
-        # Publish a startup event
-        await event_bus.publish("system_channel", {
-            "type": "startup",
-            "status": "success"
-        })
+        # Keep the application running
+        print("\nProject-S Agent is running. Press Ctrl+C to exit.")
+        while True:
+            await asyncio.sleep(1)
+            
+    except KeyboardInterrupt:
+        logger.info("Received keyboard interrupt, shutting down...")
+        print("\nShutting down Project-S Agent...")
+        dom_listener.stop()
+        executor_task.cancel()
         
-        logger.info("Project-S agent successfully started")
-        
-        # Start the main execution loop
-        await executor.run()
     except Exception as e:
-        logger.error(f"Error during startup: {str(e)}")
-        # Try to publish an error event
-        try:
-            await event_bus.publish("system_channel", {
-                "type": "error",
-                "error": f"Startup failed: {str(e)}"
-            })
-        except:
-            pass
-        raise
+        logger.error(f"Error in main function: {str(e)}")
+        print(f"An error occurred: {str(e)}")
+    
+    print("\n" + "="*50)
+    print("Project-S Agent - Shutdown Complete")
+    print("="*50 + "\n")
+
+async def run_test_commands():
+    """Run test commands to verify the system is working."""
+    # Test commands removed for production/DOM-only mode
+    pass
 
 if __name__ == "__main__":
-    try:
-        asyncio.run(startup())
-    except KeyboardInterrupt:
-        logger.info("Project-S agent shutting down (user interrupted)")
-    except Exception as e:
-        logger.error(f"Fatal error: {str(e)}")
-        sys.exit(1)
+    asyncio.run(main())

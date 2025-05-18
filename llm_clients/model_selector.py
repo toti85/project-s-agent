@@ -6,7 +6,7 @@ Intelligently selects the appropriate model for different tasks.
 import logging
 from typing import Dict, Any, List, Optional
 from llm_clients.base_client import BaseLLMClient
-from llm_clients.qwen_client import QwenOllamaClient
+from llm_clients.qwen_client import QwenClient
 from llm_clients.ollama_client import OllamaClient
 from llm_clients.llamacpp_client import LlamaCppClient
 
@@ -84,33 +84,25 @@ model_selector = ModelSelector()
 # Register available models (this would typically be done at startup)
 def initialize_models():
     """Initialize and register available models."""
-    # Register Qwen3 via OpenRouter (cloud, not local)
-    from llm_clients.openrouter_client import OpenRouterClient
+    # Register Qwen
     try:
-        qwen3_openrouter = OpenRouterClient(model="qwen/qwen3-235b-a22b:free")
-        model_selector.register_model("qwen3_openrouter", qwen3_openrouter, ["code", "reasoning", "creativity", "factual"])
+        qwen = QwenClient()
+        model_selector.register_model("qwen", qwen, ["code", "reasoning", "creativity", "factual"])
     except Exception as e:
-        logger.warning(f"Could not initialize Qwen3 OpenRouterClient: {str(e)}")
-
-    # (Optional) Remove or comment out local Qwen3/Ollama registration if you want only OpenRouter
-    # try:
-    #     qwen3_ollama = QwenOllamaClient()
-    #     model_selector.register_model("qwen", qwen3_ollama, ["code", "reasoning", "creativity", "factual"])
-    # except Exception as e:
-    #     logger.warning(f"Could not initialize QwenOllamaClient: {str(e)}")
-
+        logger.warning(f"Could not initialize Qwen client: {str(e)}")
+    
     # Register Ollama models
     try:
         llama3 = OllamaClient(model="llama3")
         model_selector.register_model("llama3", llama3, ["reasoning", "creativity", "factual"])
     except Exception as e:
         logger.warning(f"Could not initialize Ollama client: {str(e)}")
-
+    
     # Register llama.cpp models
     try:
         llamacpp = LlamaCppClient(model_path="/path/to/your/model.gguf")
         model_selector.register_model("llamacpp", llamacpp, ["reasoning", "factual"])
     except Exception as e:
         logger.warning(f"Could not initialize llama.cpp client: {str(e)}")
-
+    
     logger.info(f"Initialized models: {list(model_selector.models.keys())}")

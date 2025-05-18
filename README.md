@@ -25,7 +25,7 @@ Project-S is a modular, event-driven AI agent system capable of processing and e
 ### Installation
 
 # Clone the repository
-git clone https://github.com/your-username/project-s-agent.git
+git clone https://github.com/toti85/project-s-agent.git
 cd project-s-agent
 
 # Install dependencies

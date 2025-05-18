@@ -1,0 +1,52 @@
+# VSCode Cline Integration Configuration
+vscode_cline:
+  enabled: true
+  openrouter:
+    enabled: true
+    model: "qwen/qwen-72b"  # Qwen3 model identifier in OpenRouter
+    api_key: "${OPENROUTER_API_KEY}"  # From environment variable
+  commands:
+    timeout: 60  # Command timeout in seconds
+    auto_format: true  # Automatic code formatting after generation
+    auto_save: true  # Automatic save
+  workflows:
+    enable_advanced: true  # Enable complex workflows
+    context_window_size: 12000  # Context window size in tokens
+
+# Workflow definitions
+workflows:
+  create_rest_api:
+    description: "Create a complete REST API project"
+    steps:
+      - generate_main_app
+      - generate_models
+      - generate_tests
+      - generate_documentation
+  
+  add_feature:
+    description: "Add a new feature to existing code"
+    steps:
+      - analyze_existing_code
+      - generate_feature_code
+      - update_tests
+  
+  test_and_debug:
+    description: "Write tests and debug code"
+    steps:
+      - generate_tests
+      - identify_bugs
+      - fix_issues
+  
+  refactor_module:
+    description: "Refactor and optimize code"
+    steps:
+      - analyze_code_quality
+      - improve_structure
+      - optimize_performance
+  
+  document_code:
+    description: "Generate code documentation"
+    steps:
+      - analyze_codebase
+      - generate_docstrings
+      - create_readme

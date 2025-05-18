@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Project-S Agent</title>
+  <style>
+    body {
+      width: 300px;
+      padding: 10px;
+      font-family: Arial, sans-serif;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .header img {
+      width: 32px;
+      height: 32px;
+      margin-right: 10px;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 18px;
+    }
+    .form-group {
+      margin-bottom: 10px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input, select {
+      width: 100%;
+      padding: 5px;
+      box-sizing: border-box;
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 24px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: #2196F3;
+    }
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+    .status {
+      margin-top: 10px;
+      padding: 5px;
+      border-radius: 3px;
+      text-align: center;
+    }
+    .online {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    .offline {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    .flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img src="icons/icon48.png" alt="Logo">
+    <h1>Project-S Agent</h1>
+  </div>
+  
+  <div class="form-group flex">
+    <span>Enable Agent</span>
+    <label class="switch">
+      <input type="checkbox" id="enableAgent" checked>
+      <span class="slider"></span>
+    </label>
+  </div>
+  
+  <div class="form-group">
+    <label for="apiUrl">Agent API URL</label>
+    <input type="text" id="apiUrl" value="http://localhost:8000/api/dom">
+  </div>
+  
+  <div class="form-group">
+    <label for="pollingInterval">Polling Interval (ms)</label>
+    <input type="number" id="pollingInterval" value="1000" min="500" max="5000">
+  </div>
+  
+  <button id="saveButton">Save Settings</button>
+  
+  <div id="status" class="status">Checking connection...</div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
