@@ -245,7 +245,7 @@ class DOMListener:
                             except Exception:
                                 continue  # skip invalid block
                         cmd_type = str(cmd_data.get("type", "")).upper()
-                        # Only accept CMD or ASK with required fields
+                        # Only accept CMD or ASK or FILE with required fields
                         if cmd_type == "CMD":
                             cmd_val = (
                                 cmd_data.get("cmd")
@@ -257,6 +257,9 @@ class DOMListener:
                                 return block
                         elif cmd_type == "ASK":
                             if cmd_data.get("query") or cmd_data.get("content"):
+                                return block
+                        elif cmd_type == "FILE":
+                            if cmd_data.get("action") and cmd_data.get("path"):
                                 return block
             return ""
         except Exception as e:
@@ -701,8 +704,7 @@ class DOMListener:
                         if command and command != self.last_command:
                             logger.info(f"DOM command detected: {command[:50]}...")
                             result = await self.process_dom_command(command)
-                            self.last_command = command  # Frissítjük az utolsó végrehajtott parancsot
-                            # If there's a response, send it back to the interface
+                            self.last_command = command  # Always update after processing, as in test logic
                             if result and isinstance(result, dict):
                                 response_text = f"[Project-S Response]\n{str(result)}"
                                 success = self.send_response(response_text)
@@ -790,12 +792,14 @@ class DOMListener:
                     schemas = {
                         "CMD": {"required": ["cmd"], "optional": ["type", "query", "content", "options"]},
                         "ASK": {"required": ["query"], "optional": ["type", "options"]},
+                        "FILE": {"required": ["action", "path"], "optional": ["type", "content", "options"]},
                     }
                     schema = schemas.get(cmd_type, {"required": [], "optional": []})
                     command = {"type": cmd_type}
                     for key in schema["required"] + schema["optional"]:
                         if key in cmd_data:
                             command[key] = cmd_data[key]
+                    # CMD fallback
                     if cmd_type == "CMD" and "cmd" not in command:
                         command["cmd"] = (
                             cmd_data.get("cmd")
@@ -803,8 +807,19 @@ class DOMListener:
                             or cmd_data.get("query")
                             or cmd_data.get("content")
                         )
+                        logger.info(f"Routing CMD command: {command}")
+                    # ASK fallback
                     if cmd_type == "ASK" and "query" not in command:
                         command["query"] = cmd_data.get("content")
+                    # FILE fallback: allow action/path in command or in content
+                    if cmd_type == "FILE":
+                        if "action" not in command and "operation" in cmd_data:
+                            command["action"] = cmd_data["operation"]
+                        if "action" not in command and "action" in cmd_data:
+                            command["action"] = cmd_data["action"]
+                        if "path" not in command and "file" in cmd_data:
+                            command["path"] = cmd_data["file"]
+                        logger.info(f"Routing FILE command: {command}")
                     for k, v in command.items():
                         if isinstance(v, (int, float)):
                             command[k] = str(v)

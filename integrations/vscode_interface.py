@@ -1,9 +1,6 @@
 import logging
 import json
 from typing import Dict, Any, Optional, List, Union
-from llm_clients.qwen_client import QwenClient
-from core.config_manager import ConfigManager
-import os  # for file operations
 
 logger = logging.getLogger(__name__)
 
@@ -17,9 +14,6 @@ class VSCodeInterface:
         """Initialize the VS Code interface."""
         logger.info("VSCode interface initialized")
         self.message_id = 0
-        # Initialize Qwen3 client based on config
-        cfg = ConfigManager().get('qwen3', {})
-        self.qwen = QwenClient(cfg)
     
     async def send_request(self, action: str, content: str, options: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """
@@ -69,10 +63,8 @@ class VSCodeInterface:
         Returns:
             Dict[str, Any]: The generated code and metadata
         """
-        logger.info(f"Generating code with Qwen3: {specification}")
-        # Use Qwen3 client for code generation
-        result = await self.qwen.generate(specification, **(options or {}))
-        return {"status": "success" if "error" not in result else "error", "result": result}
+        logger.info(f"Generating code with specification: {specification}")
+        return await self.send_request("generate_code", specification, options)
     
     async def execute_code(self, code: str, options: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """
@@ -85,11 +77,8 @@ class VSCodeInterface:
         Returns:
             Dict[str, Any]: The execution results
         """
-        logger.info(f"Executing code with Qwen3 (simulate): {code[:100]}...")
-        # For now, delegate execution to the OS or provide mock
-        # Here we just wrap code execution in QwenClient for analysis
-        result = await self.qwen.generate(code, **(options or {}))
-        return {"status": "success" if "error" not in result else "error", "result": result}
+        logger.info(f"Executing code: {code[:100]}...")
+        return await self.send_request("execute_code", code, options)
     
     async def file_operation(self, operation: str, path: str, content: Optional[str] = None, options: Optional[Dict] = None) -> Dict:
         """
@@ -115,25 +104,8 @@ class VSCodeInterface:
         # Merge with any additional options
         merged_options = {**file_options, **options}
         
-        # For file operations, use VSCode API or delegate to local FS
-        logger.info(f"Performing file operation with Qwen3: {operation} {path}")
-        # Mock or implement real file handling
-        try:
-            if operation == 'read':
-                with open(path, 'r', encoding='utf-8') as f:
-                    data = f.read()
-                return {"status": "success", "content": data}
-            elif operation in ('create', 'update') and content is not None:
-                with open(path, 'w', encoding='utf-8') as f:
-                    f.write(content)
-                return {"status": "success", "path": path}
-            elif operation == 'delete':
-                os.remove(path)
-                return {"status": "success", "path": path}
-            else:
-                return {"status": "error", "message": "Invalid file operation"}
-        except Exception as e:
-            return {"status": "error", "message": str(e)}
+        # Send the request to VS Code
+        return await self.send_request("file_operation", "", merged_options)
         
     async def create_file(self, path: str, content: str, options: Optional[Dict] = None) -> Dict:
         """

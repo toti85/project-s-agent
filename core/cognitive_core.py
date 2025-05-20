@@ -54,16 +54,6 @@ class CognitiveCore:
         Returns:
             Dict[str, Any]: The result of the task processing
         """
-        # --- NORMALIZÁLÁS: content/query -> command, type nagybetűsítése ---
-        if isinstance(task, dict):
-            if "command" not in task:
-                if "content" in task:
-                    task["command"] = task["content"]
-                elif "query" in task:
-                    task["command"] = task["query"]
-            if "type" in task:
-                task["type"] = task["type"].upper()
-        # --- /NORMALIZÁLÁS ---
         try:
             task_id = task.get("id", f"task_{len(self.context['tasks']) + 1}")
             logger.info(f"Processing task: {task_id}")
@@ -160,19 +150,13 @@ class CognitiveCore:
         
         # Otherwise, determine steps based on task type
         if task_type == "query":
-            # Legacy 'query' tasks: use 'query' field
+            # Simple query task
             steps = [{
                 "type": "ASK",
-                "query": task.get("query", ""),
+                "command": task.get("query", ""),
                 "description": "Process query"
             }]
-        elif task_type == "ask":
-            # ASK tasks: normalized commands where task['command'] holds the query
-            steps = [{
-                "type": "ASK",
-                "query": task.get("command", ""),
-                "description": "Process ask"
-            }]
+        
         elif task_type == "file_operation":
             # File operation task
             action = task.get("action", "")

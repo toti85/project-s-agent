@@ -295,7 +295,15 @@ class AICommandHandler:
                 if not path:
                     return {"error": "Missing path for file read operation"}
 
+                import time
+                start_time = time.perf_counter()
+                logger.info(f"[PERF] Starting file read: {path}")
                 response = await self.vscode.read_file(path)
+                elapsed = time.perf_counter() - start_time
+                logger.info(f"[PERF] File read completed: {path} in {elapsed:.3f} seconds")
+                if elapsed > 2.0:
+                    logger.warning(f"[PERF] File read took longer than expected: {elapsed:.3f} seconds for {path}")
+                response["perf_read_seconds"] = elapsed
                 return response
 
             elif action == "write":

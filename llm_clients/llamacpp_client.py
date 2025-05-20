@@ -23,11 +23,9 @@ class LlamaCppClient(BaseLLMClient):
     
     def __init__(self, 
                  model_path: str = "/path/to/your/model.gguf", 
-                 n_ctx: int = 2048,
-                 n_gpu_layers: Optional[int] = None,
-                 n_threads: int = 4,
                  server_port: int = 8080,
-                 server_bin: Optional[str] = None):
+                 n_ctx: int = 2048,
+                 n_threads: int = 4):
         """
         Initialize the llama.cpp client.
         
@@ -36,15 +34,12 @@ class LlamaCppClient(BaseLLMClient):
             server_port: Port to run the server on
             n_ctx: Context window size
             n_threads: Number of threads to use
-            server_bin: Path to llama-server binary (if not in PATH)
         """
         self.model_path = model_path
-        self.n_ctx = n_ctx
-        self.n_gpu_layers = n_gpu_layers  # optional GPU layers setting, ignored by default
-        self.n_threads = n_threads
         self.server_port = server_port
-        self.server_bin = server_bin or "llama-server"
-        self.api_url = f"http://localhost:{self.server_port}/completion"
+        self.n_ctx = n_ctx
+        self.n_threads = n_threads
+        self.api_url = f"http://localhost:{server_port}/completion"
         self.server_process = None
         self.headers = {
             "Content-Type": "application/json"
@@ -56,7 +51,7 @@ class LlamaCppClient(BaseLLMClient):
         """Start the llama.cpp server."""
         if self.server_process is None or self.server_process.poll() is not None:
             cmd = [
-                self.server_bin,
+                "llama-server",
                 "-m", self.model_path,
                 "-c", str(self.n_ctx),
                 "-t", str(self.n_threads),
@@ -84,8 +79,7 @@ class LlamaCppClient(BaseLLMClient):
     
     def stop_server(self):
         """Stop the llama.cpp server."""
-        # Only attempt to stop if server_process attribute exists and is running
-        if hasattr(self, 'server_process') and self.server_process is not None and self.server_process.poll() is None:
+        if self.server_process is not None and self.server_process.poll() is None:
             logger.info("Stopping llama.cpp server")
             self.server_process.terminate()
             try:
@@ -107,12 +101,8 @@ class LlamaCppClient(BaseLLMClient):
         Returns:
             The generated response
         """
-        # Ensure the llama-server binary is available and server is running
-        try:
-            await self.start_server()
-        except FileNotFoundError as e:
-            logger.error(f"llama.cpp server binary not found: {e}")
-            return {"error": "llama.cpp server binary not found"}
+        # Make sure the server is running
+        await self.start_server()
         
         max_tokens = kwargs.get("max_tokens", 1000)
         temperature = kwargs.get("temperature", 0.7)
@@ -159,13 +149,8 @@ class LlamaCppClient(BaseLLMClient):
         Yields:
             Chunks of the generated response
         """
-        # Ensure the llama-server binary is available and server is running
-        try:
-            await self.start_server()
-        except FileNotFoundError as e:
-            logger.error(f"llama.cpp server binary not found: {e}")
-            yield {"error": "llama.cpp server binary not found"}
-            return
+        # Make sure the server is running
+        await self.start_server()
         
         max_tokens = kwargs.get("max_tokens", 1000)
         temperature = kwargs.get("temperature", 0.7)

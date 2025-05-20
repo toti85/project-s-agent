@@ -1,0 +1,24 @@
+{
+  "recommended_fast_models": [
+    {
+      "id": "openai/gpt-3.5-turbo",
+      "name": "OpenAI GPT-3.5 Turbo",
+      "description": "Gyors, olcsó, rövid válaszokra és tesztekhez ideális."
+    },
+    {
+      "id": "google/gemma-7b-it",
+      "name": "Google Gemma 7B IT",
+      "description": "Kisebb, gyorsabb, általános célú modell."
+    },
+    {
+      "id": "mistralai/mistral-7b-instruct",
+      "name": "Mistral 7B Instruct",
+      "description": "Gyors, olcsó, jó általános célra."
+    },
+    {
+      "id": "meta-llama/llama-2-7b-chat",
+      "name": "Meta Llama-2 7B Chat",
+      "description": "Kisebb, gyorsabb, általános célú modell."
+    }
+  ]
+}

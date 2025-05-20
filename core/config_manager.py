@@ -38,13 +38,6 @@ class ConfigManager:
             with open(default_file, 'w') as f:
                 yaml.dump(self.default_config, f)
                 
-        # Common config overrides (config.yaml)
-        common_file = os.path.join(self.config_dir, "config.yaml")
-        if os.path.exists(common_file):
-            with open(common_file, 'r') as f:
-                # Treat config.yaml as environment-level overrides
-                self.environment_config = yaml.safe_load(f) or {}
-        
         # Environment config (optional)
         env = os.environ.get("PROJECT_S_ENV", "development")
         env_file = os.path.join(self.config_dir, f"{env}.yaml")
