@@ -1,0 +1,56 @@
+site_name: Project-S Agent Documentation
+site_description: Documentation for the Project-S LangGraph Hybrid System
+site_author: Project-S Team
+repo_url: https://github.com/yourusername/project-s-agent
+edit_uri: edit/main/docs/
+theme:
+  name: material
+  palette:
+    primary: blue
+    accent: blue
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - toc.integrate
+    - navigation.top
+    - content.code.copy
+    - content.code.annotate
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - footnotes
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+nav:
+  - Home: index.md
+  - Architecture: architecture.md
+  - Usage: usage.md
+  - Extension: extension.md
+  - Diagnostics:
+    - Overview: diagnostics_system.md
+    - Architecture: diagnostics_architecture.md
+    - Dashboard: diagnostics_dashboard.md
+    - CLI: diagnostics_cli.md
+  - LangGraph Integration:
+    - Overview: langgraph_integration.md
+    - Browser Automation: browser_automation_langgraph.md
+    - Decision Router: decision_router_guide.md
+  - Contributing: contributing.md
+  - License: license.md
+
+plugins:
+  - search
+
+extra_javascript:
+  - https://unpkg.com/mermaid@8.13.3/dist/mermaid.min.js

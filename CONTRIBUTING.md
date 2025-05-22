@@ -39,4 +39,33 @@ If you encounter any issues or have suggestions for improvements, please open an
 - Add tests for new features or bug fixes.
 - Update documentation as needed.
 
+## Diagnostics System Guidelines
+
+When contributing to the diagnostics system components:
+
+1. **Performance Considerations**: 
+   - Ensure monitoring tools have minimal performance impact
+   - Use sampling for high-frequency metrics collection
+   - Consider resource usage on the target system
+
+2. **Dashboard UI**:
+   - Maintain consistent UI design with the existing components
+   - Ensure responsive design for various screen sizes
+   - Use the existing color scheme for consistency
+
+3. **LangGraph Integration**:
+   - Follow established event patterns when capturing LangGraph events
+   - Use the existing visualization tools for workflow graphs
+   - Maintain proper error context collection
+
+4. **Testing Diagnostics**:
+   - Write tests for new diagnostics features
+   - Include tests for dashboard components
+   - Test with various configurations (enabled/disabled features)
+
+5. **Documentation**:
+   - Document new diagnostics metrics or capabilities
+   - Update CLI documentation for new commands
+   - Provide examples for new monitoring features
+
 Thank you for contributing to Project-S!

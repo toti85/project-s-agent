@@ -1,0 +1,236 @@
+name: Project-S Test Suite
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+    inputs:
+      test_type:
+        description: 'Type of tests to run'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - unit
+          - integration
+          - e2e
+          - performance
+
+jobs:
+  unit-tests:
+    if: ${{ github.event.inputs.test_type == 'all' || github.event.inputs.test_type == 'unit' || github.event_name != 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest pytest-asyncio matplotlib psutil
+        pip install -r requirements.txt
+    
+    - name: Run unit tests
+      run: |
+        python -m tests.ci_cd_test_runner --test-type unit --output-format xml --output-file test-results/unit-tests.xml --ci-system github
+      env:
+        GITHUB_OUTPUT: ${{ github.output }}
+    
+    - name: Upload test results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: unit-test-results
+        path: test-results/
+    
+    - name: Publish test results
+      uses: EnricoMi/publish-unit-test-result-action@v2
+      if: always()
+      with:
+        files: test-results/unit-tests.xml
+
+  integration-tests:
+    if: ${{ github.event.inputs.test_type == 'all' || github.event.inputs.test_type == 'integration' || github.event_name != 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest pytest-asyncio matplotlib psutil
+        pip install -r requirements.txt
+    
+    - name: Run integration tests
+      run: |
+        python -m tests.ci_cd_test_runner --test-type integration --output-format xml --output-file test-results/integration-tests.xml --ci-system github
+      env:
+        GITHUB_OUTPUT: ${{ github.output }}
+    
+    - name: Upload test results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: integration-test-results
+        path: test-results/
+    
+    - name: Publish test results
+      uses: EnricoMi/publish-unit-test-result-action@v2
+      if: always()
+      with:
+        files: test-results/integration-tests.xml
+
+  e2e-tests:
+    if: ${{ github.event.inputs.test_type == 'all' || github.event.inputs.test_type == 'e2e' || github.event_name != 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest pytest-asyncio matplotlib psutil
+        pip install -r requirements.txt
+    
+    - name: Run E2E tests
+      run: |
+        python -m tests.ci_cd_test_runner --test-type e2e --output-format xml --output-file test-results/e2e-tests.xml --ci-system github
+      env:
+        GITHUB_OUTPUT: ${{ github.output }}
+    
+    - name: Upload test results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: e2e-test-results
+        path: test-results/
+    
+    - name: Publish test results
+      uses: EnricoMi/publish-unit-test-result-action@v2
+      if: always()
+      with:
+        files: test-results/e2e-tests.xml
+
+  performance-tests:
+    if: ${{ github.event.inputs.test_type == 'all' || github.event.inputs.test_type == 'performance' || github.event_name != 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest pytest-asyncio matplotlib psutil
+        pip install -r requirements.txt
+    
+    - name: Run performance tests
+      run: |
+        python -m tests.ci_cd_test_runner --test-type performance --output-format json --output-file test-results/performance-tests.json --ci-system github
+      env:
+        GITHUB_OUTPUT: ${{ github.output }}
+    
+    - name: Upload test results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: performance-test-results
+        path: |
+          test-results/
+          tests/test_output/*.html
+          tests/test_output/*.png
+    
+    - name: Generate performance summary
+      if: success()
+      run: |
+        python -c "
+        import json
+        import os
+        
+        with open('test-results/performance-tests.json', 'r') as f:
+            results = json.load(f)
+        
+        # Generate summary in GitHub Actions format
+        print('# Performance Test Results')
+        print('| Component | Avg Time (s) | Max Time (s) | Min Time (s) |')
+        print('| --- | --- | --- | --- |')
+        
+        if 'details' in results:
+            for component, metrics in results['details'].items():
+                if isinstance(metrics, dict) and 'average_times' in metrics:
+                    avg_times = metrics['average_times']
+                    for op, times in avg_times.items():
+                        if isinstance(times, dict):
+                            avg = times.get('avg', 'N/A')
+                            max_time = times.get('max', 'N/A')
+                            min_time = times.get('min', 'N/A')
+                            print(f'| {op} | {avg} | {max_time} | {min_time} |')
+        "
+
+  all-tests-summary:
+    if: always()
+    needs: [unit-tests, integration-tests, e2e-tests, performance-tests]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download all test results
+      uses: actions/download-artifact@v3
+    
+    - name: Generate test summary
+      run: |
+        echo "# Project-S Test Results" > $GITHUB_STEP_SUMMARY
+        echo "## Unit Tests" >> $GITHUB_STEP_SUMMARY
+        if [ -f unit-test-results/unit-tests.xml ]; then
+          echo "✅ Unit tests completed" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "❌ Unit tests failed" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        echo "## Integration Tests" >> $GITHUB_STEP_SUMMARY
+        if [ -f integration-test-results/integration-tests.xml ]; then
+          echo "✅ Integration tests completed" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "❌ Integration tests failed" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        echo "## End-to-End Tests" >> $GITHUB_STEP_SUMMARY
+        if [ -f e2e-test-results/e2e-tests.xml ]; then
+          echo "✅ End-to-end tests completed" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "❌ End-to-end tests failed" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        echo "## Performance Tests" >> $GITHUB_STEP_SUMMARY
+        if [ -f performance-test-results/performance-tests.json ]; then
+          echo "✅ Performance tests completed" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "❌ Performance tests failed" >> $GITHUB_STEP_SUMMARY
+        fi

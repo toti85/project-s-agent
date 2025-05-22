@@ -6,6 +6,7 @@ from core.central_executor import executor
 from interfaces.dom_listener import dom_listener
 from integrations.vscode_cline_controller import VSCodeClineController
 from integrations.vscode_cline_router import register_vscode_cline_handlers
+from core.diagnostics_initializer import initialize_diagnostics  # Added for diagnostics integration
 
 # Configure logging
 logging.basicConfig(
@@ -26,6 +27,20 @@ async def main():
     print("="*50 + "\n")
     
     try:
+        # Initialize diagnostic components
+        diagnostics_config = {
+            "log_level": os.environ.get("PROJECT_S_LOG_LEVEL", "info"),
+            "monitoring_interval": int(os.environ.get("PROJECT_S_MONITORING_INTERVAL", "60")),
+            "enable_dashboard": os.environ.get("PROJECT_S_DIAGNOSTICS_DASHBOARD", "true").lower() == "true",
+            "dashboard_port": int(os.environ.get("PROJECT_S_DIAGNOSTICS_PORT", "7777"))
+        }
+        
+        await initialize_diagnostics(diagnostics_config)
+        logger.info("Diagnostics system initialized")
+        
+        if diagnostics_config["enable_dashboard"]:
+            print(f"Diagnostics dashboard available at http://127.0.0.1:{diagnostics_config['dashboard_port']}")
+        
         # Start the DOM listener
         await dom_listener.start()
         logger.info("DOM listener started")
@@ -82,6 +97,14 @@ async def main():
         print("\nShutting down Project-S Agent...")
         dom_listener.stop()
         executor_task.cancel()
+        
+        # Shutdown diagnostics dashboard if running
+        try:
+            from integrations.diagnostics_dashboard import dashboard, stop_dashboard
+            await stop_dashboard()
+            logger.info("Diagnostics dashboard stopped")
+        except (ImportError, Exception) as e:
+            logger.warning(f"Failed to stop diagnostics dashboard: {e}")
         
     except Exception as e:
         logger.error(f"Error in main function: {str(e)}")
