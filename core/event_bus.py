@@ -14,6 +14,24 @@ class EventBus:
         """Initialize an empty event bus with no subscribers."""
         self._subscribers: Dict[str, List[Callable[[Any], Awaitable[None]]]] = {}
         logger.info("EventBus initialized")
+        
+    async def default_event_handler(self, event_data: Any) -> None:
+        """
+        Default event handler for logging events
+        
+        Args:
+            event_data: The data associated with the event
+        """
+        logger.debug(f"Default handler received event data: {event_data}")
+        
+    def register_default_handlers(self) -> None:
+        """Register default event handlers for common events"""
+        self.subscribe("command.received", self.default_event_handler)
+        self.subscribe("command.processing", self.default_event_handler)
+        self.subscribe("command.processed", self.default_event_handler)
+        self.subscribe("response.generating", self.default_event_handler)
+        self.subscribe("response.ready", self.default_event_handler)
+        logger.info("Default event handlers registered")
     
     def subscribe(self, event_type: str, callback: Callable[[Any], Awaitable[None]]) -> None:
         """

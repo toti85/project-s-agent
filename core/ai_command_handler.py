@@ -575,6 +575,7 @@ class AICommandHandler:
         # Placeholder for actual implementation
         await asyncio.sleep(1)  # Simulate processing time
         return {
+            "success": True,
             "status": "success",
             "result": {
                 "analysis": "Content analysis result would go here",
@@ -588,6 +589,7 @@ class AICommandHandler:
         # Placeholder for actual implementation
         await asyncio.sleep(1)  # Simulate processing time
         return {
+            "success": True,
             "status": "success",
             "result": {
                 "generated_text": f"Generated content based on: {prompt}"
@@ -599,6 +601,7 @@ class AICommandHandler:
         # Placeholder for actual implementation
         await asyncio.sleep(1)  # Simulate processing time
         return {
+            "success": True,
             "status": "success",
             "result": {
                 "summary": "This is a placeholder summary of the provided content."

@@ -1,0 +1,182 @@
+{
+  "metadata": {
+    "analyzer_version": "2.0.0",
+    "analysis_date": "2025-05-24T20:43:29.220611",
+    "target_url": "https://shayanwaters.com",
+    "analysis_duration_seconds": 0
+  },
+  "fetch_results": {
+    "success": true,
+    "status_code": 200,
+    "title": "Головна",
+    "html_size": 137262,
+    "text_size": 2329,
+    "fetch_time": "2025-05-24 20:43:30.251209"
+  },
+  "seo_analysis": {
+    "title": {
+      "content": "Головна",
+      "length": 7,
+      "exists": true,
+      "optimal_length": false
+    },
+    "meta_description": {
+      "content": "Мінеральні води Закарпаття - ТОВ ВАП Шаяни | Закарпаття",
+      "length": 55,
+      "exists": true,
+      "optimal_length": false
+    },
+    "meta_keywords": {
+      "content": "",
+      "exists": false
+    },
+    "headings": {
+      "h1_count": 0,
+      "h2_count": 0,
+      "h3_count": 0,
+      "h1_tags": [],
+      "has_h1": false,
+      "has_multiple_h1": false
+    },
+    "links": {
+      "internal_links": 53,
+      "external_links": 20,
+      "total_links": 73
+    },
+    "images": {
+      "total_images": 6,
+      "images_with_alt": 3,
+      "alt_text_coverage": 50.0
+    },
+    "other": {
+      "has_canonical": true,
+      "has_robots_meta": false,
+      "has_sitemap": false
+    }
+  },
+  "technical_analysis": {
+    "doctype": true,
+    "charset": {
+      "exists": true,
+      "value": "utf-8"
+    },
+    "viewport": {
+      "exists": true,
+      "content": "width=device-width, initial-scale=1.0",
+      "responsive": true
+    },
+    "html5_semantic": {
+      "header": false,
+      "nav": false,
+      "main": false,
+      "article": false,
+      "section": false,
+      "aside": false,
+      "footer": false
+    },
+    "semantic_score": 0,
+    "resources": {
+      "external_css": 10,
+      "external_js": 12,
+      "inline_css": 17,
+      "inline_js": 19,
+      "total_resources": 22
+    },
+    "other": {
+      "has_favicon": true,
+      "has_apple_touch_icon": false,
+      "has_manifest": false
+    }
+  },
+  "content_analysis": {
+    "text_metrics": {
+      "word_count": 310,
+      "sentence_count": 21,
+      "character_count": 2329,
+      "avg_words_per_sentence": 14.8,
+      "avg_word_length": 6.5
+    },
+    "language": {
+      "cyrillic_chars": 1683,
+      "latin_chars": 104,
+      "primary_language": "Cyrillic"
+    },
+    "structure": {
+      "paragraphs": 19,
+      "lists": 7,
+      "content_density": 1.7
+    },
+    "readability": {
+      "sufficient_content": true,
+      "good_sentence_length": true,
+      "content_quality_score": 100
+    }
+  },
+  "performance_analysis": {
+    "page_size": {
+      "html_size_kb": 134.04,
+      "size_category": "Medium"
+    },
+    "resource_count": {
+      "images": 6,
+      "css_files": 10,
+      "js_files": 12,
+      "total_requests": 28
+    },
+    "optimization": {
+      "minified_likely": true,
+      "compression_indicators": false
+    }
+  },
+  "accessibility_analysis": {
+    "aria": {
+      "aria_labels": 0,
+      "aria_roles": 0,
+      "has_aria_attributes": false
+    },
+    "forms": {
+      "labels": 0,
+      "inputs": 0,
+      "label_input_ratio": 0
+    },
+    "other": {
+      "has_skip_links": false,
+      "has_lang_attribute": false
+    }
+  },
+  "recommendations": [
+    {
+      "priority": "HIGH",
+      "category": "SEO",
+      "issue": "Title length not optimal",
+      "fix": "Keep title between 30-60 characters"
+    },
+    {
+      "priority": "HIGH",
+      "category": "SEO",
+      "issue": "Missing H1 heading",
+      "fix": "Add H1 heading for page structure"
+    },
+    {
+      "priority": "MEDIUM",
+      "category": "Technical",
+      "issue": "Poor HTML5 semantic structure",
+      "fix": "Use semantic HTML5 elements (header, nav, main, footer)"
+    },
+    {
+      "priority": "MEDIUM",
+      "category": "Accessibility",
+      "issue": "No ARIA attributes",
+      "fix": "Add ARIA labels and roles for better accessibility"
+    }
+  ],
+  "scores": {
+    "seo_score": 55,
+    "technical_score": 60,
+    "content_score": 100,
+    "performance_score": 85,
+    "accessibility_score": 50,
+    "overall_score": 69.2
+  },
+  "overall_score": 69.2
+}

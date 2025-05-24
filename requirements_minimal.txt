@@ -1,0 +1,12 @@
+# Project-S Minimális Függőségek
+
+# Alap függőségek
+asyncio>=3.4.3
+httpx>=0.24.0
+pyyaml>=6.0.0
+
+# LangGraph
+langgraph>=0.4.5
+
+# Hibakezelés és naplózás
+logging>=0.4.9.6

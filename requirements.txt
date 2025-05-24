@@ -14,3 +14,6 @@ pylsp==0.0.1
 
 # llama.cpp integráció (opcionális)
 llama-cpp-python==0.2.11
+
+# LangGraph Integration
+langgraph>=0.4.5

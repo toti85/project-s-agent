@@ -7,6 +7,7 @@ from core.event_bus import event_bus
 from core.central_executor import executor
 from core.error_handler import error_handler
 from utils.performance_monitor import monitor_performance
+from core.cognitive_core_langgraph import cognitive_core_langgraph, CognitiveCoreWithLangGraph
 
 logger = logging.getLogger(__name__)
 
@@ -20,8 +21,7 @@ class CognitiveCore:
     3. Learning from past interactions and results
     4. Suggesting next actions based on current context
     """
-    
-    def __init__(self):
+      def __init__(self):
         """Initialize the cognitive core with empty context and task history."""
         # Current context of the agent's operations
         self.context = {
@@ -42,7 +42,7 @@ class CognitiveCore:
         event_bus.subscribe("command.completed", self._on_command_completed)
         event_bus.subscribe("command.error", self._on_command_error)
         
-        logger.info("CognitiveCore initialized")
+        logger.info("Legacy CognitiveCore initialized")
     
     async def process_task(self, task: Dict[str, Any]) -> Dict[str, Any]:
         """
@@ -463,5 +463,9 @@ class CognitiveCore:
         
         logger.info("Context cleared")
 
-# Create a singleton instance
-cognitive_core = CognitiveCore()
+# Create a default cognitive core instance
+legacy_cognitive_core = CognitiveCore()
+
+# Create the enhanced LangGraph-based cognitive core
+# This is now the default cognitive core used throughout the system
+cognitive_core = cognitive_core_langgraph

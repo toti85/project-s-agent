@@ -1,0 +1,29 @@
+======================================================================
+DETAILED RECOMMENDATIONS REPORT
+======================================================================
+Website: https://shayanwaters.com
+Total Recommendations: 4
+
+🔥 HIGH PRIORITY (2 issues):
+--------------------------------------------------
+1. Title length not optimal
+   Category: SEO
+   Fix: Keep title between 30-60 characters
+
+2. Missing H1 heading
+   Category: SEO
+   Fix: Add H1 heading for page structure
+
+🔥 MEDIUM PRIORITY (2 issues):
+--------------------------------------------------
+1. Poor HTML5 semantic structure
+   Category: Technical
+   Fix: Use semantic HTML5 elements (header, nav, main, footer)
+
+2. No ARIA attributes
+   Category: Accessibility
+   Fix: Add ARIA labels and roles for better accessibility
+
+======================================================================
+END OF RECOMMENDATIONS
+======================================================================
