@@ -320,8 +320,7 @@ class DiagnosticsManager:
                         level=AlertLevel.WARNING,
                         message=f"Magas CPU használat: {metrics.cpu_percent:.1f}%",
                         source="performance_monitor",
-                        details={"cpu_percent": metrics.cpu_percent}
-                    )
+                        details={"cpu_percent": metrics.cpu_percent}                    )
                 
                 if metrics.memory_percent > 80:
                     self.send_alert(
@@ -333,7 +332,7 @@ class DiagnosticsManager:
                 
             except Exception as e:
                 self.logger.error(f"Hiba a teljesítmény monitorozás közben: {e}")
-            
+                
             # Várunk a következő mintavételig
             time.sleep(self.monitoring_interval_seconds)
     
@@ -344,8 +343,28 @@ class DiagnosticsManager:
             if hasattr(self, '_monitoring_thread'):
                 self._monitoring_thread.join(timeout=1.0)
             self.logger.info("Teljesítmény monitorozás leállítva")
+
+    def get_current_metrics(self) -> Optional[PerformanceMetrics]:
+        """
+        Visszaadja a legfrissebb teljesítmény metrikákat
+        
+        Returns:
+            PerformanceMetrics: A legfrissebb metrikák vagy None, ha nincsenek
+        """
+        if self.performance_history:
+            return self.performance_history[-1]
+        return None
+
+    def get_uptime_seconds(self) -> float:
+        """
+        Visszaadja a rendszer üzemidejét másodpercekben
+        
+        Returns:
+            float: Az üzemidő másodpercekben
+        """
+        return time.time() - self.start_time
     
-    def register_error(self, error: Exception, component: Optional[str] = None, 
+    def register_error(self, error: Exception, component: Optional[str] = None,
                      workflow_id: Optional[str] = None, additional_info: Optional[Dict[str, Any]] = None,
                      alert_level: Optional[AlertLevel] = None) -> ErrorContext:
         """
@@ -860,8 +879,7 @@ class DiagnosticsManager:
             # Időbeli eloszlás (óránként)
             hour = error.timestamp.strftime("%Y-%m-%d %H:00")
             error_timeline[hour] = error_timeline.get(hour, 0) + 1
-        
-        # Top 5 hibatípus
+          # Top 5 hibatípus
         sorted_types = sorted(error_types.items(), key=lambda x: x[1], reverse=True)
         top_types = dict(sorted_types[:5])
         
@@ -869,9 +887,20 @@ class DiagnosticsManager:
         sorted_components = sorted(components.items(), key=lambda x: x[1], reverse=True)
         top_components = dict(sorted_components[:5])
         
+        # Recent errors (last 24 hours)
+        now = datetime.now()
+        recent_errors = [error for error in self.error_history 
+                        if (now - error.timestamp).total_seconds() < 86400]
+        
+        # Error rate calculation (errors per hour)
+        uptime_hours = self.get_uptime_seconds() / 3600
+        error_rate = len(self.error_history) / uptime_hours if uptime_hours > 0 else 0
+        
         # Statisztikák összeállítása
         stats = {
             "total_errors": len(self.error_history),
+            "recent_errors": len(recent_errors),
+            "error_rate": error_rate,
             "top_error_types": top_types,
             "top_error_components": top_components,
             "error_timeline": error_timeline,

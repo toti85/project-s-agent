@@ -1,0 +1,140 @@
+
+PROJECT-S SYSTEM ANALYSIS REPORT
+Generated: 2025-06-23T17:46:58.363556
+==================================================
+
+SYSTEM INFORMATION:
+- Platform: Windows-10-10.0.26100-SP0
+- Processor: Intel64 Family 6 Model 158 Stepping 10, GenuineIntel
+- Architecture: 64bit
+- Python Version: 3.11.9
+- Machine: AMD64
+- Node: DESKTOP-VAR2T1H
+
+PERFORMANCE METRICS:
+- CPU Usage: 23.8%
+- CPU Cores (Logical): 12
+- CPU Cores (Physical): 6
+
+MEMORY:
+- Total: 31.34 GB
+- Used: 13.56 GB
+- Available: 17.78 GB
+- Usage: 43.3%
+
+DISK USAGE:
+- Total: 476.29 GB
+- Used: 295.42 GB
+- Free: 180.87 GB
+- Usage: 62.0%
+
+NETWORK:
+- Bytes Sent: 15.75 MB
+- Bytes Received: 62.75 MB
+- Active Connections: 155
+
+PROCESSES:
+- Total Running: 307
+
+TOP CPU CONSUMING PROCESSES:
+1. System Idle Process (PID: 0) - CPU: 0.0% Memory: 0.0%
+2. System (PID: 4) - CPU: 0.0% Memory: 0.0%
+3. IntelCpHeciSvc.exe (PID: 8) - CPU: 0.0% Memory: 0.0%
+4.  (PID: 188) - CPU: 0.0% Memory: 0.3%
+5. Registry (PID: 232) - CPU: 0.0% Memory: 0.1%
+
+PROJECT-S STATUS:
+- Loaded Modules: None
+- Diagnostics: Not Available
+- AI Models: Unknown
+
+ANALYSIS SUMMARY:
+- Memory Usage: Good (43.3%)
+- CPU Usage: Good (23.8%)
+- Disk Usage: Good (62.0%)
+- Overall System Health: Good
+
+Raw data (JSON format):
+{
+  "timestamp": "2025-06-23T17:46:58.363556",
+  "system_info": {
+    "platform": "Windows-10-10.0.26100-SP0",
+    "processor": "Intel64 Family 6 Model 158 Stepping 10, GenuineIntel",
+    "architecture": "64bit",
+    "python_version": "3.11.9",
+    "machine": "AMD64",
+    "node": "DESKTOP-VAR2T1H"
+  },
+  "performance_metrics": {
+    "cpu_percent": 23.8,
+    "cpu_count_logical": 12,
+    "cpu_count_physical": 6,
+    "memory": {
+      "total": 33652609024,
+      "available": 19089326080,
+      "percent": 43.3,
+      "used": 14563332096,
+      "free": 19089276928
+    },
+    "disk": {
+      "total": 511411687424,
+      "used": 317202771968,
+      "free": 194208915456,
+      "percent": 62.0
+    }
+  },
+  "network": {
+    "io_counters": {
+      "bytes_sent": 16518333,
+      "bytes_recv": 65796310,
+      "packets_sent": 56801,
+      "packets_recv": 70978,
+      "errin": 0,
+      "errout": 0,
+      "dropin": 0,
+      "dropout": 0
+    },
+    "connections": 155
+  },
+  "processes": {
+    "count": 307,
+    "top_cpu": [
+      {
+        "pid": 0,
+        "memory_percent": 2.4342837710317555e-05,
+        "name": "System Idle Process",
+        "cpu_percent": 0.0
+      },
+      {
+        "pid": 4,
+        "memory_percent": 0.021969411033561592,
+        "name": "System",
+        "cpu_percent": 0.0
+      },
+      {
+        "pid": 8,
+        "memory_percent": 0.02935746227864297,
+        "name": "IntelCpHeciSvc.exe",
+        "cpu_percent": 0.0
+      },
+      {
+        "pid": 188,
+        "memory_percent": 0.30465061394462417,
+        "name": "",
+        "cpu_percent": 0.0
+      },
+      {
+        "pid": 232,
+        "memory_percent": 0.13117138100204614,
+        "name": "Registry",
+        "cpu_percent": 0.0
+      }
+    ]
+  },
+  "project_s": {
+    "modules_loaded": [],
+    "diagnostic_available": false,
+    "dashboard_status": "Not Running",
+    "ai_models_status": "Unknown"
+  }
+}

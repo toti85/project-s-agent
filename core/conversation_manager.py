@@ -4,7 +4,7 @@ Felelős a beszélgetések, üzenetek, kontextus és memória kezeléséért.
 """
 from typing import List, Optional, Dict
 from datetime import datetime
-from interfaces.api_server import Conversation, Message, Command, Context
+from core.types import Conversation, Message, Command, Context
 import uuid
 
 class ConversationManager:
@@ -110,7 +110,8 @@ class ConversationManager:
         for m in msgs:
             if m.id == ref_id or (m.references and ref_id in m.references):
                 return m
-        return None
-
-    # --- Archiválás, összegzés, tömörítés helye ---
+        return None    # --- Archiválás, összegzés, tömörítés helye ---
     # (Később implementálható: automatikus összegzés, fontosság szerinti tömörítés, perzisztencia)
+
+# Create a singleton instance
+conversation_manager = ConversationManager()

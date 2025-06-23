@@ -10,14 +10,27 @@ from integrations.vscode_interface import VSCodeInterface
 from utils.structured_logger import log_command_event
 import time
 
+# Import ModelManager for proper model routing
+try:
+    from integrations.simplified_model_manager import model_manager
+    MODEL_MANAGER_AVAILABLE = True
+except ImportError:
+    MODEL_MANAGER_AVAILABLE = False
+
 logger = logging.getLogger(__name__)
 
 class AICommandHandler:
     def __init__(self):
         self.supported_commands = ["analyze", "generate", "summarize", "ask", "cmd", "code", "file", "python_file"]
-        self.qwen = QwenOllamaClient()  # Use Ollama-based Qwen3 client only
+          # Use ModelManager for proper model routing if available, fallback to QwenOllamaClient
+        if MODEL_MANAGER_AVAILABLE:
+            self.model_manager = model_manager
+            logger.info("AI Command Handler initialized with Simplified ModelManager for proper model routing")
+        else:
+            self.qwen = QwenOllamaClient()  # Fallback to Ollama-based Qwen3 client
+            logger.warning("ModelManager not available, falling back to QwenOllamaClient")
+            
         self.vscode = VSCodeInterface()  # Initialize VSCodeInterface
-        logger.info("AI Command Handler initialized with QwenOllamaClient and VSCode interface")
     
     @monitor_performance
     async def process_json_command(self, json_input):
@@ -106,8 +119,12 @@ class AICommandHandler:
                         file_params = {
                             "action": "read",
                             "path": file_params
-                        }
-                
+                        }                # --- FIX: Map 'filename' or 'name' to 'path' if present ---
+                if isinstance(file_params, dict):
+                    if "filename" in file_params and not file_params.get("path"):
+                        file_params["path"] = file_params["filename"]
+                    elif "name" in file_params and not file_params.get("path"):
+                        file_params["path"] = file_params["name"]
                 return await self.handle_file_command(file_params)
                 
             elif cmd_type == "PYTHON_FILE":
@@ -123,8 +140,35 @@ class AICommandHandler:
                             "action": "execute",
                             "path": python_file_params
                         }
-                
                 return await self.handle_python_file_command(python_file_params)
+                
+            elif cmd_type == "WORKFLOW":
+                # For WORKFLOW commands, the command contains workflow parameters
+                workflow_params = command_data.get("command", {})
+                if isinstance(workflow_params, str):
+                    # Try to parse as JSON if it's a string
+                    try:
+                        workflow_params = json.loads(workflow_params)
+                    except json.JSONDecodeError:
+                        # If it's not valid JSON, treat it as a general workflow task
+                        workflow_params = {
+                            "type": "general",
+                            "task": workflow_params
+                        }
+                
+                # Map command_data fields to workflow_params if not already present
+                if not workflow_params.get("type") and command_data.get("workflow_type"):
+                    workflow_params["type"] = command_data.get("workflow_type")
+                if not workflow_params.get("task") and command_data.get("task"):
+                    workflow_params["task"] = command_data.get("task")
+                if not workflow_params.get("path") and command_data.get("path"):
+                    workflow_params["path"] = command_data.get("path")
+                if not workflow_params.get("organization_type") and command_data.get("organization_type"):
+                    workflow_params["organization_type"] = command_data.get("organization_type")
+                if not workflow_params.get("remove_duplicates") and command_data.get("remove_duplicates") is not None:
+                    workflow_params["remove_duplicates"] = command_data.get("remove_duplicates")
+                
+                return await self.handle_workflow_command(workflow_params)
                 
             else:
                 logger.warning(f"Unsupported command type: {cmd_type}")
@@ -163,19 +207,40 @@ class AICommandHandler:
 
         try:
             logger.info(f"Handling ASK command with query: {query}")
-            # Use Qwen to process the query
-            response = await self.qwen.ask(query)
+              # Use ModelManager for proper model routing if available
+            if MODEL_MANAGER_AVAILABLE and hasattr(self, 'model_manager'):
+                # Use Simplified ModelManager to execute task
+                response = await self.model_manager.execute_task_with_core_system(query)
+                
+                # Extract the text response from ModelManager result
+                if isinstance(response, dict):
+                    if response.get("status") == "success":
+                        execution_result = response.get("execution_result", {})
+                        if isinstance(execution_result, dict):
+                            response_text = execution_result.get("content", 
+                                          execution_result.get("ai_response", str(execution_result)))
+                        else:
+                            response_text = str(execution_result)
+                    else:
+                        # Handle error from ModelManager
+                        return {"error": response.get("error", "Model generation failed")}
+                else:
+                    response_text = str(response)
+            else:
+                # Fallback to QwenOllamaClient
+                response_text = await self.qwen.ask(query)
+            
             duration = time.time() - start_time
             log_command_event(
                 event="ask_command_completed",
                 command_id=command_id,
                 command_type="ASK",
                 status="success",
-                context={"result": response, "duration": duration}
+                context={"result": response_text, "duration": duration}
             )
             return {
                 "status": "success",
-                "response": response
+                "response": response_text
             }
         except Exception as e:
             duration = time.time() - start_time
@@ -315,6 +380,24 @@ class AICommandHandler:
                 if content is None:
                     return {"error": "Missing content for file write operation"}
 
+                # --- SIMPLE FILE OPERATION: direct Python I/O for .txt, .md, .csv, .log, .json ---
+                simple_exts = [".txt", ".md", ".csv", ".log", ".json"]
+                if any(path.lower().endswith(ext) for ext in simple_exts):
+                    try:
+                        os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
+                        with open(path, "w", encoding="utf-8") as f:
+                            f.write(content)
+                        return {
+                            "status": "success",
+                            "path": path,
+                            "message": f"File created: {path}",
+                            "size": len(content.encode("utf-8")),
+                            "mode": "w"
+                        }
+                    except Exception as e:
+                        logger.error(f"Direct file write error: {str(e)}")
+                        return {"error": f"Direct file write error: {str(e)}"}
+                # --- CODE/PROJECT FILE: fallback to VSCode workflow ---
                 response = await self.vscode.create_file(path, content)
                 return response
 
@@ -604,9 +687,98 @@ class AICommandHandler:
             "success": True,
             "status": "success",
             "result": {
-                "summary": "This is a placeholder summary of the provided content."
+                "summary": f"Summary of content: {content[:100]}..."
             }
         }
+    
+    @monitor_performance
+    async def handle_workflow_command(self, command: dict):
+        """
+        Handle WORKFLOW commands to execute multi-step workflows using CognitiveCore
+        
+        Args:
+            command (dict): The command containing workflow details
+            
+        Returns:
+            dict: Response with workflow execution results
+        """
+        if not command:
+            logger.error("Empty workflow command received")
+            return {"error": "Empty workflow command received"}
+            
+        logger.info(f"Processing workflow command: {command}")
+        
+        try:
+            # Import CognitiveCore for workflow execution
+            from core.cognitive_core import cognitive_core
+            
+            # Extract workflow parameters
+            workflow_type = command.get("type", "general")
+            task_data = command.get("task", {})
+            
+            # If task is a string, convert to dict format
+            if isinstance(task_data, str):
+                task_data = {
+                    "type": workflow_type,
+                    "description": task_data
+                }
+            
+            # Ensure task has required fields
+            if "type" not in task_data:
+                task_data["type"] = workflow_type
+            
+            # Process specific workflow types
+            if workflow_type == "file_organization":
+                # File organization workflow
+                folder_path = command.get("path") or task_data.get("path")
+                if not folder_path:
+                    return {"error": "Missing path for file organization workflow"}
+                
+                task_data.update({
+                    "type": "file_organization",
+                    "path": folder_path,
+                    "organization_type": command.get("organization_type", "by_type"),
+                    "remove_duplicates": command.get("remove_duplicates", True)
+                })
+                
+            elif workflow_type == "code_analysis":
+                # Code analysis workflow
+                code_path = command.get("path") or task_data.get("path")
+                if not code_path:
+                    return {"error": "Missing path for code analysis workflow"}
+                
+                task_data.update({
+                    "type": "code_analysis",
+                    "path": code_path
+                })
+                
+            elif workflow_type == "multi_step":
+                # Custom multi-step workflow with predefined steps
+                steps = command.get("steps", [])
+                if steps:
+                    task_data["steps"] = steps
+            
+            # Execute the workflow using CognitiveCore
+            logger.info(f"Executing workflow with CognitiveCore: {task_data}")
+            
+            # Process the task through CognitiveCore
+            result = await cognitive_core.process_task(task_data)
+            
+            return {
+                "status": "success",
+                "workflow_type": workflow_type,
+                "result": result,
+                "message": "Workflow executed successfully"
+            }
+            
+        except ImportError as e:
+            logger.error(f"CognitiveCore not available: {str(e)}")
+            return {"error": "Workflow execution system not available"}
+        except Exception as e:
+            logger.error(f"Error processing workflow command: {str(e)}")
+            error_context = {"component": "ai_handler", "operation": "workflow"}
+            await error_handler.handle_error(e, error_context)
+            return {"error": str(e)}
 
 # Create a singleton instance
 ai_handler = AICommandHandler()

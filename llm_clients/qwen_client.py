@@ -21,8 +21,11 @@ class QwenOllamaClient(OllamaClient):
     Qwen3 Ollama integráció Project-S-hez.
     Alapértelmezett modell: qwen3:8b (vagy a helyi Ollama Qwen3 modell neve)
     """
-    def __init__(self, model: str = "qwen3:8b", host: str = "http://localhost:11434"):
+    def __init__(self, model: str = "qwen3:8b", host: str = "http://localhost:11434", **kwargs):
         super().__init__(model=model, host=host)
+        # Store additional parameters for future use
+        self.temperature = kwargs.get('temperature', 0.3)
+        self.max_tokens = kwargs.get('max_tokens', 2000)
         logger.info(f"QwenOllamaClient initialized with model: {model} at {host}")
 
     async def ask(self, query: str, **kwargs) -> str:

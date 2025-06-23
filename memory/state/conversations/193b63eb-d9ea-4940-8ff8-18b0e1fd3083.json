@@ -1,0 +1,23 @@
+[
+  {
+    "id": "c09c00ac-5d22-459c-a5aa-7a30a1edd283",
+    "timestamp": "2025-05-24T23:02:30.484383",
+    "role": "user",
+    "content": "Explain the concept of recursion in programming with an example.",
+    "metadata": {
+      "task_type": "gyors_v\u00e1lasz"
+    }
+  },
+  {
+    "id": "b92b3a3b-a5f2-4afa-9aa5-6b2df39a9762",
+    "timestamp": "2025-05-24T23:02:30.506101",
+    "role": "assistant",
+    "content": "Recursion is a programming technique where a function calls itself in order to solve a smaller instance of the same problem. This allows for solving complex problems by breaking them down into simpler subproblems.\n\nHere is an example of a recursive function in Python to calculate the factorial of a number:\n\n```python\ndef factorial(n):\n    if n == 0:\n        return 1\n    else:\n        return n * factorial(n-1)\n```\n\nIn this function, if the input `n` is 0, the function returns 1 (the base case). Otherwise, it calculates the factorial of `n` by multiplying `n` with the factorial of `n-1`, which is done by calling the `factorial` function again with the argument `n-1`. This process continues recursively until the base case is reached.\n\nWhen we call the `factorial` function with an input of 5, for example, the function will make repeated recursive calls as follows:\n\n```\nfactorial(5)\n5 * factorial(4)\n5 * (4 * factorial(3))\n5 * (4 * (3 * factorial(2)))\n5 * (4 * (3 * (2 * factorial(1))))\n5 * (4 * (3 * (2 * (1 * factorial(0))))\n5 * (4 * (3 * (2 * (1 * 1))))\n5 * (4 * (3 * (2 * 1)))\n5 * (4 * (3 * 2))\n5 * (4 * 6)\n5 * 24\n120\n```\n\nIn this way, recursion can be a powerful technique for solving problems that can be broken down into smaller, similar subproblems.",
+    "metadata": {
+      "model": "gpt-3.5-turbo",
+      "provider": "openai",
+      "multi_model_comparison": true,
+      "response_time": null
+    }
+  }
+]

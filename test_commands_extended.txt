@@ -1,0 +1,6 @@
+listázd ki a fájlokat
+olvasd el a teszt_file.txt fájlt
+futtasd: dir *.py
+magyarázd el a rekurziót
+workflows
+exit

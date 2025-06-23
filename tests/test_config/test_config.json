@@ -1,0 +1,12 @@
+{
+  "test_setting": "test_value",
+  "nested": {
+    "setting1": 1,
+    "setting2": "two"
+  },
+  "list_setting": [
+    1,
+    2,
+    3
+  ]
+}

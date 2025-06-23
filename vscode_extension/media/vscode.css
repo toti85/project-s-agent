@@ -1,0 +1,82 @@
+/* VSCode styling variables */
+:root {
+  --container-padding: 20px;
+  --input-padding-vertical: 6px;
+  --input-padding-horizontal: 4px;
+  --input-margin-vertical: 4px;
+  --input-margin-horizontal: 0;
+}
+
+body {
+  padding: 0 var(--container-padding);
+  color: var(--vscode-foreground);
+  font-size: var(--vscode-font-size);
+  font-weight: var(--vscode-font-weight);
+  font-family: var(--vscode-font-family);
+  background-color: var(--vscode-editor-background);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 1px solid var(--vscode-focusBorder);
+}
+
+button {
+  padding: var(--input-padding-vertical) var(--input-padding-horizontal);
+  width: 100%;
+  text-align: center;
+  color: var(--vscode-button-foreground);
+  background: var(--vscode-button-background);
+  border: none;
+  cursor: pointer;
+  font-family: var(--vscode-font-family);
+}
+
+button:hover {
+  background: var(--vscode-button-hoverBackground);
+}
+
+button:focus {
+  outline: 1px solid var(--vscode-focusBorder);
+  outline-offset: 2px;
+}
+
+button:active {
+  background: var(--vscode-button-activeBackground);
+}
+
+button.secondary {
+  color: var(--vscode-button-secondaryForeground);
+  background: var(--vscode-button-secondaryBackground);
+}
+
+button.secondary:hover {
+  background: var(--vscode-button-secondaryHoverBackground);
+}
+
+input {
+  padding: var(--input-padding-vertical) var(--input-padding-horizontal);
+  color: var(--vscode-input-foreground);
+  border: 1px solid var(--vscode-input-border);
+  background: var(--vscode-input-background);
+}
+
+input:focus {
+  border-color: var(--vscode-focusBorder);
+}
+
+a {
+  color: var(--vscode-textLink-foreground);
+  text-decoration: none;
+}
+
+a:hover,
+a:active {
+  color: var(--vscode-textLink-activeForeground);
+}
+
+code {
+  font-family: var(--vscode-editor-font-family);
+  font-size: var(--vscode-editor-font-size);
+}

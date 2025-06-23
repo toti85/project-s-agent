@@ -1,0 +1,112 @@
+{
+  "timestamp": "2025-06-16 19:10:32",
+  "total_check_time": 26.28170156478882,
+  "system_health": {
+    "operational": 5,
+    "needs_attention": 0,
+    "failed": 3,
+    "total": 8,
+    "readiness_score": 62.5
+  },
+  "detailed_results": {
+    "\ud83e\udde0 Cognitive Core Architecture": {
+      "status": "failed",
+      "error": "No module named 'core.component_registry'",
+      "issues": [
+        "Cognitive core initialization failed",
+        "May need dependency installation"
+      ]
+    },
+    "\ud83d\udd27 Smart Tool Orchestrator": {
+      "status": "failed",
+      "error": "No module named 'core.component_registry'",
+      "issues": [
+        "Smart orchestrator not available",
+        "May need component integration"
+      ]
+    },
+    "\ud83d\udcca Intelligent Workflow System": {
+      "status": "failed",
+      "error": "No module named 'core.component_registry'",
+      "issues": [
+        "IntelligentWorkflowOrchestrator import/interface failed"
+      ]
+    },
+    "\ud83e\udd16 Multi-Model AI Integration": {
+      "status": "operational",
+      "execution_time": 10.815189123153687,
+      "details": [
+        "AI response time: 10.815s",
+        "Model routing: Functional"
+      ],
+      "test_result": {
+        "command_type": "AI_RESPONSE",
+        "execution_result": {
+          "content": "To better assist you with a system status check, could you please provide more details? For example:  \n- Are you checking the status of a specific service, server, or application?  \n- Is this related to your local system, a cloud service, or something else?  \n- Are you encountering any errors or specific issues?  \n\nIf you're asking about the Qwen system itself, I can't access real-time status updates, but I can confirm that the Qwen service is generally operational unless otherwise noted on Alibaba Cloud's official channels. Let me know how I can help further!",
+          "model": "qwen3-235b",
+          "task_type": "general"
+        },
+        "status": "success"
+      }
+    },
+    "\ud83d\udee0\ufe0f Tool Registry Status": {
+      "status": "operational",
+      "tool_count": 13,
+      "details": [
+        "Registered tools: 13",
+        "Tool registry: Available",
+        "Available tools: CodeExecutionTool, PythonModuleInfoTool, FileContentSearchTool, FileInfoTool, FileReadTool",
+        "... and 8 more"
+      ],
+      "tool_names": [
+        "CodeExecutionTool",
+        "PythonModuleInfoTool",
+        "FileContentSearchTool",
+        "FileInfoTool",
+        "FileReadTool",
+        "FileSearchTool",
+        "FileWriteTool",
+        "EnvironmentVariableTool",
+        "SystemCommandTool",
+        "SystemInfoTool",
+        "WebApiCallTool",
+        "WebPageFetchTool",
+        "WebSearchTool"
+      ]
+    },
+    "\ud83d\udcc8 LangGraph Integration": {
+      "status": "operational",
+      "details": [
+        "LangGraph state manager: Available",
+        "Diagnostics bridge: Available",
+        "Session management issue: 'StateManager' object has no attribute 'create_session'"
+      ]
+    },
+    "\u26a1 Core Performance": {
+      "status": "operational",
+      "execution_time": 12.675580501556396,
+      "performance_rating": "Needs optimization",
+      "details": [
+        "Command routing time: 12.676s",
+        "Command router: Functional",
+        "AI command handler: Available",
+        "Performance rating: Needs optimization"
+      ],
+      "test_result": {
+        "status": "success",
+        "response": "I can help you check your system's performance! To provide the most accurate guidance, could you please clarify:  \n\n1. **What type of system are you using?**  \n   - Windows, macOS, Linux, or another OS?  \n\n2. **What specific performance issues are you experiencing?**  \n   - Slow response times? High CPU/memory usage? Disk errors? Network lag?  \n\n3. **Do you have any particular tools or metrics in mind?**  \n   - e.g., Task Manager, `top`, `htop`, `iostat`, `ping`, etc.  \n\nLet me know, and I\u2019ll tailor steps to diagnose or improve performance! \ud83d\ude0a"
+      }
+    },
+    "\ud83d\udd0d Critical API Issues": {
+      "status": "operational",
+      "details": [
+        "\u2705 Workflow handler: Available",
+        "\u2705 Dashboard metrics bridge: Available",
+        "\u2705 CLI routing: Available"
+      ],
+      "issues": [],
+      "critical_fixes_needed": 0
+    }
+  },
+  "readiness_status": "\u274c NOT READY - Major issues need resolution"
+}

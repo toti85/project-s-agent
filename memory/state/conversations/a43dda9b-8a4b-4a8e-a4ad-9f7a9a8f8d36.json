@@ -1,0 +1,32 @@
+[
+  {
+    "id": "f7d67165-7f18-46fe-b266-87f3bfda14ac",
+    "timestamp": "2025-05-25T01:33:42.686057",
+    "role": "user",
+    "content": "Explain the concept of recursion in programming with an example.",
+    "metadata": {
+      "task_type": "gyors_v\u00e1lasz"
+    }
+  },
+  {
+    "id": "1711e419-5932-4d24-94b4-5fdc13114256",
+    "timestamp": "2025-05-25T01:33:42.698070",
+    "role": "assistant",
+    "content": "Recursion in programming is the concept of a function calling itself in order to solve a problem. It is a way of designing solutions for problems by breaking them down into smaller, more manageable pieces.\n\nHere is an example of recursion in programming:\n\n```python\ndef factorial(n):\n    if n == 0:\n        return 1\n    else:\n        return n * factorial(n-1)\n\nprint(factorial(5)) # Outputs 120\n```\n\nIn this example, the `factorial()` function calculates the factorial of a given number `n`. It calls itself with a smaller value each time until `n` becomes 0. At that point, it returns 1 to stop the recursion. Then, the recursive calls start returning values back up the chain until the final result is computed. \n\nRecursion can be a powerful and elegant way to solve certain types of problems, but it can also be prone to stack overflow errors if used carelessly. It is important to have a clear base case and make sure that the recursive call eventually reaches this base case to stop the recursion.",
+    "metadata": {
+      "model": "gpt-3.5-turbo",
+      "provider": null,
+      "multi_model_comparison": true,
+      "response_time": null
+    }
+  },
+  {
+    "id": "372126a2-0226-4b59-ac73-83cff2256b1b",
+    "timestamp": "2025-05-25T01:33:57.509821",
+    "role": "user",
+    "content": "Tervez\u00e9si f\u00e1zis a k\u00f6vetkez\u0151 feladathoz: Create a Python function that sorts a list of dictionaries by a specified key.",
+    "metadata": {
+      "task_type": "tervez\u00e9s"
+    }
+  }
+]

@@ -819,6 +819,10 @@ class DOMListener:
                             command["action"] = cmd_data["action"]
                         if "path" not in command and "file" in cmd_data:
                             command["path"] = cmd_data["file"]
+                        if "path" not in command and "filename" in cmd_data:
+                            command["path"] = cmd_data["filename"]
+                        if "path" not in command and "name" in cmd_data:
+                            command["path"] = cmd_data["name"]
                         logger.info(f"Routing FILE command: {command}")
                     for k, v in command.items():
                         if isinstance(v, (int, float)):

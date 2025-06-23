@@ -1,0 +1,2 @@
+Hello from FileReadTool test!
+This is a simple test file.

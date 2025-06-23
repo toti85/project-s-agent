@@ -31,15 +31,14 @@ class ToolRegistry:
         self.tools: Dict[str, BaseTool] = {}
         self.tool_classes: Dict[str, Type[BaseTool]] = {}
         self.categories: Dict[str, Set[str]] = {}
-        
-        # Biztonsági beállítások
+          # Biztonsági beállítások - FEJLESZTÉSI MÓD: minden engedélyezve
         self.security_config = {
-            "allow_system_commands": False,
+            "allow_system_commands": True,  # Engedélyezzük a rendszerparancsokat
             "allow_file_write": True,
             "allow_network_access": True,
-            "restricted_paths": ["/etc", "/var", "/usr/bin", "C:\\Windows", "C:\\Program Files"],
-            "allowed_domains": ["*"],  # Engedélyezzük az összes domaint alapértelmezettként
-            "max_file_size": 10 * 1024 * 1024  # 10 MB
+            "restricted_paths": [],  # Üres lista - nincs korlátozás
+            "allowed_domains": ["*"],  # Engedélyezzük az összes domaint
+            "max_file_size": 100 * 1024 * 1024  # 100 MB - nagyobb limit
         }
         
         # Alapértelmezett fájl elérési útvonalak
@@ -52,10 +51,12 @@ class ToolRegistry:
         # Létrehozzuk a szükséges mappákat
         for path in self.default_paths.values():
             os.makedirs(path, exist_ok=True)
-        
-        # Esemény feliratkozások
+          # Esemény feliratkozások
         event_bus.subscribe("tool.executed", self._on_tool_executed)
         event_bus.subscribe("security.violation", self._on_security_violation)
+        
+        # Biztonsági konfiguráció betöltése
+        self.load_security_config()
         
         logger.info("Tool Registry inicializálva")
         
@@ -345,8 +346,7 @@ class ToolRegistry:
                     "reason": f"A fájl mérete ({details.get('size', 0)} bájt) meghaladja a megengedett méretet ({self.security_config['max_file_size']} bájt)"
                 }
                 
-        # Hálózati hozzáférések ellenőrzése
-        if operation_type == "network_access":
+        # Hálózati hozzáférések ellenőrzése        if operation_type == "network_access":
             domain = details.get("domain", "")
             allowed_domains = self.security_config["allowed_domains"]
             
@@ -355,12 +355,21 @@ class ToolRegistry:
                     "allowed": False,
                     "reason": f"A megadott domain ({domain}) nem engedélyezett"
                 }
-                
+        
         # Minden ellenőrzés sikerült
         return {
             "allowed": True,
             "reason": "A művelet megfelel a biztonsági előírásoknak"
         }
+        
+    def get_available_tools(self) -> Dict[str, Any]:
+        """
+        Returns available tools in a dictionary format for API compatibility.
+        
+        Returns:
+            Dict[str, Any]: Dictionary with tool names as keys and tool instances as values
+        """
+        return dict(self.tools)
 
 # Singleton példány létrehozása
 tool_registry = ToolRegistry()

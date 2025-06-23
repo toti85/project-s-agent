@@ -1,0 +1,44 @@
+{
+  "timestamp": "2025-05-22T22:59:55.710767",
+  "tests": {
+    "file_write": true,
+    "file_read": true,
+    "web_tool": true
+  },
+  "success_rate": "3/3",
+  "tools_tested": [
+    {
+      "name": "SimpleFileTool",
+      "description": "\n    Egyszer\u0171 f\u00e1jlkezel\u0151 eszk\u00f6z demonstr\u00e1ci\u00f3s c\u00e9lokra.\n    \n    Category: file\n    Version: 1.0.0\n    Requires permissions: Yes\n    Safe: Yes\n    ",
+      "category": "file",
+      "version": "1.0.0",
+      "requires_permissions": false,
+      "is_safe": true,
+      "parameters": {
+        "path": {
+          "required": true,
+          "type": "<class 'str'>"
+        },
+        "content": {
+          "required": false,
+          "type": "<class 'str'>",
+          "default": null
+        }
+      }
+    },
+    {
+      "name": "SimpleWebTool",
+      "description": "\n    Egyszer\u0171 web eszk\u00f6z demonstr\u00e1ci\u00f3s c\u00e9lokra.\n    \n    Category: web\n    Version: 1.0.0\n    Requires permissions: Yes\n    Safe: Yes\n    ",
+      "category": "web",
+      "version": "1.0.0",
+      "requires_permissions": false,
+      "is_safe": true,
+      "parameters": {
+        "url": {
+          "required": true,
+          "type": "<class 'str'>"
+        }
+      }
+    }
+  ]
+}

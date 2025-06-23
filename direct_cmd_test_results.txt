@@ -1,0 +1,28 @@
+Direct CMD Test Results
+==============================
+
+Command: echo Hello CMD
+Success: True
+Output: Hello CMD
+
+Error: 
+--------------------
+Command: hostname
+Success: True
+Output: DESKTOP-VAR2T1H
+
+Error: 
+--------------------
+Command: date /t
+Success: True
+Output: 2025. 05. 30. 
+
+Error: 
+--------------------
+Command: dir /b | findstr .py | head -5
+Success: False
+Output: 
+Error: 'head' is not recognized as an internal or external command,
+operable program or batch file.
+
+--------------------

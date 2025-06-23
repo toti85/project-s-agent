@@ -1,0 +1,80 @@
+{
+  "timestamp": "2025-05-22T11:42:20.482300",
+  "summary": {
+    "total_tests": 10,
+    "passed_tests": 1,
+    "failed_tests": 9,
+    "success_rate": "10.0%"
+  },
+  "test_results": {
+    "basic_operation": {
+      "success": false,
+      "response": {
+        "success": false,
+        "error": "ProjectSClient.execute_command() missing 1 required positional argument: 'command'"
+      }
+    },
+    "state_management": {
+      "success": false,
+      "response": {
+        "success": false,
+        "error": "ProjectSClient.execute_command() missing 1 required positional argument: 'command'"
+      }
+    },
+    "tool_usage": {
+      "success": false,
+      "response": {
+        "success": false,
+        "error": "ProjectSClient.execute_command() missing 1 required positional argument: 'command'"
+      }
+    },
+    "complex_workflow": {
+      "success": false,
+      "response": {
+        "success": false,
+        "error": "ProjectSClient.execute_command() missing 1 required positional argument: 'command'"
+      }
+    },
+    "state_persistence": {
+      "success": false,
+      "error": "Nem siker\u00fclt session ID-t l\u00e9trehozni"
+    },
+    "error_handling_invalid_command": {
+      "success": true,
+      "response": {
+        "success": false,
+        "error": "ProjectSClient.execute_command() missing 1 required positional argument: 'command'"
+      }
+    },
+    "error_handling_file_access": {
+      "success": false,
+      "response": {
+        "success": false,
+        "error": "ProjectSClient.execute_command() missing 1 required positional argument: 'command'"
+      }
+    },
+    "performance_measurement": {
+      "success": false,
+      "response": {
+        "success": false,
+        "error": "ProjectSClient.execute_command() missing 1 required positional argument: 'command'"
+      },
+      "metrics": {}
+    },
+    "security_check": {
+      "success": false,
+      "response": {
+        "success": false,
+        "error": "ProjectSClient.execute_command() missing 1 required positional argument: 'command'"
+      }
+    },
+    "diagnostics_info": {
+      "success": false,
+      "response": {
+        "success": false,
+        "error": "ProjectSClient.execute_command() missing 1 required positional argument: 'command'"
+      }
+    }
+  },
+  "performance": {}
+}

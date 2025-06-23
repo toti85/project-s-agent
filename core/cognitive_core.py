@@ -21,7 +21,8 @@ class CognitiveCore:
     3. Learning from past interactions and results
     4. Suggesting next actions based on current context
     """
-      def __init__(self):
+    
+    def __init__(self):
         """Initialize the cognitive core with empty context and task history."""
         # Current context of the agent's operations
         self.context = {
@@ -195,6 +196,93 @@ class CognitiveCore:
                 },
                 "description": "Analyze the code",
                 "depends_on": "step_1"
+            })
+        
+        elif task_type == "file_organization":
+            # File organization task - break into comprehensive folder organization steps
+            folder_path = task.get("path", "")
+            organization_type = task.get("organization_type", "by_type")
+            remove_duplicates = task.get("remove_duplicates", True)
+            
+            # Step 1: Analyze folder contents
+            steps.append({
+                "type": "CMD",
+                "command": f'dir "{folder_path}" /B /A-D',
+                "description": f"List all files in {folder_path}",
+                "critical": True,
+                "output_capture": True
+            })
+            
+            # Step 2: Create organization structure
+            if organization_type == "by_type":
+                steps.append({
+                    "type": "CMD",
+                    "command": f'mkdir "{folder_path}\\Documents" "{folder_path}\\Images" "{folder_path}\\Videos" "{folder_path}\\Audio" "{folder_path}\\Archives" "{folder_path}\\Programs" "{folder_path}\\Other" 2>nul',
+                    "description": "Create file type folders",
+                    "depends_on": "step_1"
+                })
+            elif organization_type == "by_date":
+                steps.append({
+                    "type": "CMD", 
+                    "command": f'powershell -Command "Get-ChildItem \'{folder_path}\' -File | Group-Object {{$_.LastWriteTime.ToString(\'yyyy-MM\')}} | ForEach-Object {{New-Item -Path \'{folder_path}\\$($_.Name)\' -ItemType Directory -Force}}"',
+                    "description": "Create date-based folders",
+                    "depends_on": "step_1"
+                })
+            
+            # Step 3: Move files by type
+            if organization_type == "by_type":
+                file_type_moves = [
+                    ('Documents', '*.txt *.doc *.docx *.pdf *.rtf *.odt'),
+                    ('Images', '*.jpg *.jpeg *.png *.gif *.bmp *.tiff *.svg *.webp'),
+                    ('Videos', '*.mp4 *.avi *.mkv *.mov *.wmv *.flv *.webm'),
+                    ('Audio', '*.mp3 *.wav *.flac *.aac *.ogg *.wma'),
+                    ('Archives', '*.zip *.rar *.7z *.tar *.gz *.bz2'),
+                    ('Programs', '*.exe *.msi *.deb *.dmg *.pkg')
+                ]
+                
+                for folder_name, extensions in file_type_moves:
+                    for ext in extensions.split():
+                        steps.append({
+                            "type": "CMD",
+                            "command": f'for %i in ("{folder_path}\\{ext}") do if exist "%i" move "%i" "{folder_path}\\{folder_name}\\" 2>nul',
+                            "description": f"Move {ext} files to {folder_name}",
+                            "depends_on": "step_2",
+                            "continue_on_error": True
+                        })
+                
+                # Move remaining files to Other folder
+                steps.append({
+                    "type": "CMD",
+                    "command": f'for %i in ("{folder_path}\\*.*") do if exist "%i" move "%i" "{folder_path}\\Other\\" 2>nul',
+                    "description": "Move remaining files to Other folder",
+                    "depends_on": "step_2",
+                    "continue_on_error": True
+                })
+            
+            # Step 4: Remove duplicates if requested
+            if remove_duplicates:
+                steps.append({
+                    "type": "CMD",
+                    "command": f'powershell -Command "Get-ChildItem \'{folder_path}\' -Recurse -File | Group-Object Name | Where-Object {{$_.Count -gt 1}} | ForEach-Object {{$_.Group | Sort-Object LastWriteTime | Select-Object -Skip 1 | Remove-Item -Force}}"',
+                    "description": "Remove duplicate files based on filename",
+                    "depends_on": "step_3",
+                    "continue_on_error": True
+                })
+            
+            # Step 5: Clean up empty folders
+            steps.append({
+                "type": "CMD",
+                "command": f'powershell -Command "Get-ChildItem \'{folder_path}\' -Recurse -Directory | Where-Object {{(Get-ChildItem $_.FullName).Count -eq 0}} | Remove-Item -Force"',
+                "description": "Remove empty folders",
+                "continue_on_error": True
+            })
+            
+            # Step 6: Generate organization report
+            steps.append({
+                "type": "CMD",
+                "command": f'powershell -Command "Get-ChildItem \'{folder_path}\' -Recurse | Group-Object Directory | ForEach-Object {{Write-Output \'$($_.Name): $($_.Count) files\'}}"',
+                "description": "Generate organization summary report",
+                "output_capture": True
             })
         
         else:

@@ -1,0 +1,143 @@
+[
+  {
+    "id": "0c55afc5-ae80-4597-bbdc-04b87c151a1e",
+    "timestamp": "2025-05-25T02:22:00.333371",
+    "role": "user",
+    "content": "Explain the concept of recursion in programming with an example.",
+    "metadata": {
+      "task_type": "gyors_v\u00e1lasz"
+    }
+  },
+  {
+    "id": "4709cd31-836d-4931-9ebf-3e04316ebb03",
+    "timestamp": "2025-05-25T02:22:00.344003",
+    "role": "assistant",
+    "content": "Recursion is a programming concept in which a function calls itself in order to solve a problem. It is commonly used to solve problems that can be divided into smaller subproblems that are easier to solve. \n\nHere is an example of a commonly used recursion function in programming, calculating the factorial of a number:\n\n```python\ndef factorial(n):\n    if n == 0:\n        return 1\n    else:\n        return n * factorial(n-1)\n    \nresult = factorial(5)\nprint(result)\n```\n\nIn the above example, the `factorial` function calls itself with a smaller input until the base case (n equals 0) is reached. The final result is then calculated by multiplying the current value of n with the value returned by the recursive call to `factorial`.",
+    "metadata": {
+      "model": "gpt-3.5-turbo",
+      "provider": null,
+      "multi_model_comparison": true,
+      "response_time": null
+    }
+  },
+  {
+    "id": "364f07f6-a38c-4a2e-bd36-b1d4327bb8ba",
+    "timestamp": "2025-05-25T02:22:14.484434",
+    "role": "user",
+    "content": "Tervez\u00e9si f\u00e1zis a k\u00f6vetkez\u0151 feladathoz: Create a Python function that sorts a list of dictionaries by a specified key.",
+    "metadata": {
+      "task_type": "tervez\u00e9s"
+    }
+  },
+  {
+    "id": "3ea57bbd-eb3e-49e3-9e90-f42324c5503a",
+    "timestamp": "2025-05-25T02:22:14.497423",
+    "role": "assistant",
+    "content": "A Python funkci\u00f3nk l\u00e9trehoz\u00e1s\u00e1nak alapj\u00e1ul szolg\u00e1l\u00f3 terv a k\u00f6vetkez\u0151 lehet:\n\n1. Funkci\u00f3 Hozz\u00e1ad\u00e1sa:\n   Els\u0151k\u00e9nt adunk hozz\u00e1 egy alapfunkci\u00f3t, amely param\u00e9terk\u00e9nt kapja meg a sz\u00f3t\u00e1rak list\u00e1j\u00e1t \u00e9s a kulcsot, mely szerint rendezni szeretn\u00e9nk.\n\n2. Kiv\u00e9telkezel\u00e9s:\n   Biztos\u00edtanunk kell, hogy a funkci\u00f3nk a hib\u00e1s param\u00e9terekhez vagy a hib\u00e1s adatszerkezetekhez is megfelel\u0151en viszonyuljon. Erre j\u00f3 p\u00e9lda, ha a kulcs nem l\u00e9tezik az \u00f6sszes sz\u00f3t\u00e1rban, vagy ha a bemeneti param\u00e9ter nem lista.\n\n3. Rendez\u00e9s:\n   A Python be\u00e9p\u00edtett `sorted` f\u00fcggv\u00e9ny\u00e9t fogjuk haszn\u00e1lni a list\u00e1nk rendez\u00e9s\u00e9hez. A `sorted` f\u00fcggv\u00e9ny lehet\u0151v\u00e9 teszi, hogy egy f\u00fcggv\u00e9nyt vagy lambdaf\u00fcggv\u00e9nyt haszn\u00e1ljuk a rendez\u00e9si kulcsk\u00e9nt. \n\nItt a tervez\u00e9si sablonja a rendszernek:\n\n```python\ndef sort_list_of_dictionaries(list_of_dicts, key):\n    # ellen\u0151rizni, hogy a list_of_dicts lista-e \u00e9s hogy a kulcs l\u00e9tezik-e minden sz\u00f3t\u00e1rban\n    # ha nem, dobjon kiv\u00e9telt\n \n    # haszn\u00e1lja a be\u00e9p\u00edtett `sorted` funkci\u00f3t a lista rendez\u00e9s\u00e9hez\n    # a rendez\u00e9si kulcs a `key` param\u00e9terben megadott kulcs lesz\n    # haszn\u00e1lhat lambdaf\u00fcggv\u00e9nyt a rendez\u00e9si kulcsk\u00e9nt\n\n    # visszaadja a rendezett list\u00e1t\n```\n\n4. Tesztel\u00e9s:\n   Amint a programunk elk\u00e9sz\u00fclt \u00e9s m\u0171k\u00f6d\u0151k\u00e9pesnek t\u0171nik, k\u00fcl\u00f6nb\u00f6z\u0151 tesztesetekkel kell ellen\u0151rizni annak m\u0171k\u00f6d\u00e9s\u00e9t. Az teszteseteknek le kell fedni\u00fck a legt\u00f6bb lehets\u00e9ges esetet, bele\u00e9rtve a hib\u00e1s bemeneti \u00e9rt\u00e9keket is.",
+    "metadata": {
+      "model": "gpt-4",
+      "provider": "openai",
+      "response_time": 13.926929712295532
+    }
+  },
+  {
+    "id": "027094c2-66ed-4364-b8d5-b1a5878da6f2",
+    "timestamp": "2025-05-25T02:22:14.621789",
+    "role": "user",
+    "content": "V\u00e9grehajt\u00e1si f\u00e1zis. Terv: A Python funkci\u00f3nk l\u00e9trehoz\u00e1s\u00e1nak alapj\u00e1ul szolg\u00e1l\u00f3 terv a k\u00f6vetkez\u0151 lehet:\n\n1. Funkci\u00f3 Hozz\u00e1ad\u00e1sa:\n   Els\u0151k\u00e9nt adunk hozz\u00e1 egy alapfunkci\u00f3t, amely param\u00e9terk\u00e9nt kapja meg a sz\u00f3t\u00e1rak list\u00e1j\u00e1t \u00e9s a kulcsot, mely szerint rendezni szeretn\u00e9nk.\n\n2. Kiv\u00e9telkezel\u00e9s:\n   Biztos\u00edtanunk kell, hogy a funkci\u00f3nk a hib\u00e1s param\u00e9terekhez vagy a hib\u00e1s adatszerkezetekhez is megfelel\u0151en viszonyuljon. Erre j\u00f3 p\u00e9lda, ha a kulcs nem l\u00e9tezik az \u00f6sszes sz\u00f3t\u00e1rban, vagy ha a bemeneti param\u00e9ter nem lista.\n\n3. Rendez\u00e9s:\n   A Python be\u00e9p\u00edtett `sorted` f\u00fcggv\u00e9ny\u00e9t fogjuk haszn\u00e1lni a list\u00e1nk rendez\u00e9s\u00e9hez. A `sorted` f\u00fcggv\u00e9ny lehet\u0151v\u00e9 teszi, hogy egy f\u00fcggv\u00e9nyt vagy lambdaf\u00fcggv\u00e9nyt haszn\u00e1ljuk a rendez\u00e9si kulcsk\u00e9nt. \n\nItt a tervez\u00e9si sablonja a rendszernek:\n\n```python\ndef sort_list_of_dictionaries(list_of_dicts, key):\n    # ellen\u0151rizni, hogy a list_of_dicts lista-e \u00e9s hogy a kulcs l\u00e9tezik-e minden sz\u00f3t\u00e1rban\n    # ha nem, dobjon kiv\u00e9telt\n \n    # haszn\u00e1lja a be\u00e9p\u00edtett `sorted` funkci\u00f3t a lista rendez\u00e9s\u00e9hez\n    # a rendez\u00e9si kulcs a `key` param\u00e9terben megadott kulcs lesz\n    # haszn\u00e1lhat lambdaf\u00fcggv\u00e9nyt a rendez\u00e9si kulcsk\u00e9nt\n\n    # visszaadja a rendezett list\u00e1t\n```\n\n4. Tesztel\u00e9s:\n   Amint a programunk elk\u00e9sz\u00fclt \u00e9s m\u0171k\u00f6d\u0151k\u00e9pesnek t\u0171nik, k\u00fcl\u00f6nb\u00f6z\u0151 tesztesetekkel kell ellen\u0151rizni annak m\u0171k\u00f6d\u00e9s\u00e9t. Az teszteseteknek le kell fedni\u00fck a legt\u00f6bb lehets\u00e9ges esetet, bele\u00e9rtve a hib\u00e1s bemeneti \u00e9rt\u00e9keket is.. Feladat: Create a Python function that sorts a list of dictionaries by a specified key.",
+    "metadata": {
+      "task_type": "k\u00f3dol\u00e1s"
+    }
+  },
+  {
+    "id": "9cac6b57-01cc-443c-9cb8-cc78160f7684",
+    "timestamp": "2025-05-25T02:22:14.641954",
+    "role": "assistant",
+    "content": "No response",
+    "metadata": {
+      "model": "claude-3-sonnet",
+      "provider": null,
+      "response_time": 0.002000570297241211
+    }
+  },
+  {
+    "id": "9e89f061-5ac7-424b-9b76-cc4f14059867",
+    "timestamp": "2025-05-25T02:22:17.167644",
+    "role": "user",
+    "content": "Ellen\u0151rz\u00e9si f\u00e1zis. A v\u00e9grehajt\u00e1s eredm\u00e9nye: No response. Eredeti feladat: Create a Python function that sorts a list of dictionaries by a specified key.",
+    "metadata": {
+      "task_type": "ellen\u0151rz\u00e9s"
+    }
+  },
+  {
+    "id": "f4fbc84d-71cb-4b5c-81ea-f22885cf45f0",
+    "timestamp": "2025-05-25T02:22:17.184936",
+    "role": "assistant",
+    "content": "Az ellen\u0151rz\u00e9s sor\u00e1n a rendszer nem adott v\u00e1laszt a v\u00e9grehajt\u00e1si f\u00e1zisban felvetett k\u00e9rd\u00e9sre. Ennek alapj\u00e1n a v\u00e9grehajt\u00e1s nem teljes\u00edtette a feladatot, amely a Python f\u00fcggv\u00e9ny l\u00e9trehoz\u00e1s\u00e1t c\u00e9lozta a megadott kulcs szerint rendezett sz\u00f3t\u00e1rok list\u00e1j\u00e1hoz. Javasolt \u00fajra megk\u00eds\u00e9relni a folyamatot, rem\u00e9lhet\u0151leg ez\u00fattal a rendszer v\u00e1laszt ad a feladatra.",
+    "metadata": {
+      "model": "gpt-3.5-turbo",
+      "provider": "openai",
+      "response_time": 2.4414193630218506
+    }
+  },
+  {
+    "id": "93f12fe1-3297-4794-9fe1-b9a6b6483198",
+    "timestamp": "2025-05-25T02:22:33.709303",
+    "role": "user",
+    "content": "Tervez\u00e9si f\u00e1zis a k\u00f6vetkez\u0151 feladathoz: Can you modify the previous solution to handle cases where the key doesn't exist in some dictionaries?",
+    "metadata": {
+      "task_type": "tervez\u00e9s"
+    }
+  },
+  {
+    "id": "24ade4d9-a75e-45a0-885b-a125950ad375",
+    "timestamp": "2025-05-25T02:22:33.729269",
+    "role": "assistant",
+    "content": "A m\u00f3dos\u00edtott terv a k\u00f6vetkez\u0151 lehet:\n\n1. Funcki\u00f3 Hozz\u00e1ad\u00e1sa:\n   Hozz\u00e1adjuk az alapfunkci\u00f3t, amely param\u00e9terk\u00e9nt kapja a sz\u00f3t\u00e1rak list\u00e1j\u00e1t \u00e9s a kulcsot, aminek alapj\u00e1n a list\u00e1t rendezni szeretn\u00e9nk.\n\n2. Kiv\u00e9telkezel\u00e9s:\n   Biztos\u00edtjuk, hogy a funkci\u00f3 helyesen viszonyuljon a hib\u00e1s param\u00e9terekhez vagy hib\u00e1s adatszerkezetekhez. Ugyanakkor, a funkci\u00f3ban hozz\u00e1adjuk a kezel\u00e9st az esetekre, amikor a kulcs nem l\u00e9tezik n\u00e9mely sz\u00f3t\u00e1rban. Ilyenkor a funkci\u00f3 ne hib\u00e1zzon, hanem azokat a sz\u00f3t\u00e1rakat helyezze a lista v\u00e9g\u00e9re, melyek nem tartalmaznak ilyen kulcsot.\n\n3. Rendez\u00e9s:\n   A Python be\u00e9p\u00edtett `sorted` f\u00fcggv\u00e9ny\u00e9t haszn\u00e1ljuk a lista rendez\u00e9s\u00e9hez. A `sorted` f\u00fcggv\u00e9ny lehet\u0151v\u00e9 teszi, hogy f\u00fcggv\u00e9nyt vagy lambdaf\u00fcggv\u00e9nyt \u00e1ll\u00edtsunk be a rendez\u00e9si kulcsk\u00e9nt. \n\nItt a tervez\u00e9si sablonja a m\u00f3dos\u00edtott rendszernek:\n\n```python\ndef sort_list_of_dictionaries(list_of_dicts, key):\n    # Ellen\u0151rizz\u00fck, hogy a list_of_dicts lista-e \u00e9s hogy a kulcs l\u00e9tezik-e minden sz\u00f3t\u00e1rban.\n    # Ha nem lista, dobjon kiv\u00e9telt.\n    # Ha a kulcs csak n\u00e9mely sz\u00f3t\u00e1rban tal\u00e1lhat\u00f3 meg, rendezze a list\u00e1t \u00fagy, hogy ezek a sz\u00f3t\u00e1rak utols\u00f3k legyenek.\n\n    # Haszn\u00e1ljuk a be\u00e9p\u00edtett `sorted` f\u00fcggv\u00e9nyt a lista rendez\u00e9s\u00e9hez.\n    # A rendez\u00e9si kulcs a key param\u00e9ter \u00e1ltal megadott kulcsot haszn\u00e1lja, ha a sz\u00f3t\u00e1rban l\u00e9tezik, k\u00fcl\u00f6nben valami nagy \u00e9rt\u00e9ket vagy None-ot haszn\u00e1l.\n    # Itt kulcsk\u00e9nt haszn\u00e1lhatunk egy lambdaf\u00fcggv\u00e9nyt.\n\n    # Visszaadjuk a rendezett list\u00e1t.\n```\n\n4. Tesztel\u00e9s:\n   Miut\u00e1n a programunk elk\u00e9sz\u00fcl \u00e9s m\u0171k\u00f6d\u0151k\u00e9pesnek t\u0171nik, k\u00fcl\u00f6nb\u00f6z\u0151 tesztesetekkel ellen\u0151rizz\u00fck a m\u0171k\u00f6d\u00e9s\u00e9t. A teszteseteknek le kell fedni\u00fck a legt\u00f6bb lehets\u00e9ges esetet, bele\u00e9rtve a hib\u00e1s bemeneti \u00e9rt\u00e9keket \u00e9s a kulcs n\u00e9lk\u00fcli sz\u00f3t\u00e1rakat is.",
+    "metadata": {
+      "model": "gpt-4",
+      "provider": "openai",
+      "response_time": 16.36439323425293
+    }
+  },
+  {
+    "id": "c793e917-bcf4-41e7-9f08-32810020de17",
+    "timestamp": "2025-05-25T02:22:33.821564",
+    "role": "user",
+    "content": "V\u00e9grehajt\u00e1si f\u00e1zis. Terv: A m\u00f3dos\u00edtott terv a k\u00f6vetkez\u0151 lehet:\n\n1. Funcki\u00f3 Hozz\u00e1ad\u00e1sa:\n   Hozz\u00e1adjuk az alapfunkci\u00f3t, amely param\u00e9terk\u00e9nt kapja a sz\u00f3t\u00e1rak list\u00e1j\u00e1t \u00e9s a kulcsot, aminek alapj\u00e1n a list\u00e1t rendezni szeretn\u00e9nk.\n\n2. Kiv\u00e9telkezel\u00e9s:\n   Biztos\u00edtjuk, hogy a funkci\u00f3 helyesen viszonyuljon a hib\u00e1s param\u00e9terekhez vagy hib\u00e1s adatszerkezetekhez. Ugyanakkor, a funkci\u00f3ban hozz\u00e1adjuk a kezel\u00e9st az esetekre, amikor a kulcs nem l\u00e9tezik n\u00e9mely sz\u00f3t\u00e1rban. Ilyenkor a funkci\u00f3 ne hib\u00e1zzon, hanem azokat a sz\u00f3t\u00e1rakat helyezze a lista v\u00e9g\u00e9re, melyek nem tartalmaznak ilyen kulcsot.\n\n3. Rendez\u00e9s:\n   A Python be\u00e9p\u00edtett `sorted` f\u00fcggv\u00e9ny\u00e9t haszn\u00e1ljuk a lista rendez\u00e9s\u00e9hez. A `sorted` f\u00fcggv\u00e9ny lehet\u0151v\u00e9 teszi, hogy f\u00fcggv\u00e9nyt vagy lambdaf\u00fcggv\u00e9nyt \u00e1ll\u00edtsunk be a rendez\u00e9si kulcsk\u00e9nt. \n\nItt a tervez\u00e9si sablonja a m\u00f3dos\u00edtott rendszernek:\n\n```python\ndef sort_list_of_dictionaries(list_of_dicts, key):\n    # Ellen\u0151rizz\u00fck, hogy a list_of_dicts lista-e \u00e9s hogy a kulcs l\u00e9tezik-e minden sz\u00f3t\u00e1rban.\n    # Ha nem lista, dobjon kiv\u00e9telt.\n    # Ha a kulcs csak n\u00e9mely sz\u00f3t\u00e1rban tal\u00e1lhat\u00f3 meg, rendezze a list\u00e1t \u00fagy, hogy ezek a sz\u00f3t\u00e1rak utols\u00f3k legyenek.\n\n    # Haszn\u00e1ljuk a be\u00e9p\u00edtett `sorted` f\u00fcggv\u00e9nyt a lista rendez\u00e9s\u00e9hez.\n    # A rendez\u00e9si kulcs a key param\u00e9ter \u00e1ltal megadott kulcsot haszn\u00e1lja, ha a sz\u00f3t\u00e1rban l\u00e9tezik, k\u00fcl\u00f6nben valami nagy \u00e9rt\u00e9ket vagy None-ot haszn\u00e1l.\n    # Itt kulcsk\u00e9nt haszn\u00e1lhatunk egy lambdaf\u00fcggv\u00e9nyt.\n\n    # Visszaadjuk a rendezett list\u00e1t.\n```\n\n4. Tesztel\u00e9s:\n   Miut\u00e1n a programunk elk\u00e9sz\u00fcl \u00e9s m\u0171k\u00f6d\u0151k\u00e9pesnek t\u0171nik, k\u00fcl\u00f6nb\u00f6z\u0151 tesztesetekkel ellen\u0151rizz\u00fck a m\u0171k\u00f6d\u00e9s\u00e9t. A teszteseteknek le kell fedni\u00fck a legt\u00f6bb lehets\u00e9ges esetet, bele\u00e9rtve a hib\u00e1s bemeneti \u00e9rt\u00e9keket \u00e9s a kulcs n\u00e9lk\u00fcli sz\u00f3t\u00e1rakat is.. Feladat: Can you modify the previous solution to handle cases where the key doesn't exist in some dictionaries?",
+    "metadata": {
+      "task_type": "k\u00f3dol\u00e1s"
+    }
+  },
+  {
+    "id": "eeb57914-8947-421a-8024-33023066e269",
+    "timestamp": "2025-05-25T02:22:33.834514",
+    "role": "assistant",
+    "content": "No response",
+    "metadata": {
+      "model": "claude-3-sonnet",
+      "provider": null,
+      "response_time": 0.0009963512420654297
+    }
+  },
+  {
+    "id": "26a66854-dbc2-4431-a7fc-f166740e7889",
+    "timestamp": "2025-05-25T02:22:36.008945",
+    "role": "user",
+    "content": "Ellen\u0151rz\u00e9si f\u00e1zis. A v\u00e9grehajt\u00e1s eredm\u00e9nye: No response. Eredeti feladat: Can you modify the previous solution to handle cases where the key doesn't exist in some dictionaries?",
+    "metadata": {
+      "task_type": "ellen\u0151rz\u00e9s"
+    }
+  },
+  {
+    "id": "edd99d6e-38a3-48ca-a121-adce8b3333ee",
+    "timestamp": "2025-05-25T02:22:36.021952",
+    "role": "assistant",
+    "content": "A v\u00e9grehajt\u00e1si f\u00e1zis nem teljes\u00edtette a feladatot. A rendszer jelenleg sem v\u00e1laszol a m\u00f3dos\u00edtott tervez\u00e9si feladatra. Javaslom \u00fajb\u00f3l megk\u00eds\u00e9lni a feladat v\u00e9grehajt\u00e1s\u00e1t, \u00e9s rem\u00e9lhet\u0151leg ez\u00fattal sikerrel j\u00e1r. Amennyiben tov\u00e1bbi seg\u00edts\u00e9gre van sz\u00fcks\u00e9ged, ne habozz k\u00e9rdezni!",
+    "metadata": {
+      "model": "gpt-3.5-turbo",
+      "provider": "openai",
+      "response_time": 2.083515167236328
+    }
+  }
+]

@@ -1,0 +1,55 @@
+{
+  "timestamp": "2025-05-31T13:07:13.144897",
+  "version": "0.6.0-stable",
+  "tests": {
+    "FileWriteTool": {
+      "timestamp": "2025-05-31T13:07:13.198408",
+      "success": true,
+      "details": "Write-Read verification successful, 104 bytes",
+      "duration_seconds": 0.0194,
+      "status": "PASS"
+    },
+    "FileSearchTool": {
+      "timestamp": "2025-05-31T13:07:19.248422",
+      "success": true,
+      "details": "Found 10 .py files",
+      "duration_seconds": 0.017738,
+      "status": "PASS"
+    },
+    "FileInfoTool": {
+      "timestamp": "2025-05-31T13:07:19.254448",
+      "success": true,
+      "details": "Got info for C:\\project_s_agent\\WORKING_MINIMAL_VERSION.py",
+      "duration_seconds": 0.002014,
+      "status": "PASS"
+    },
+    "FileContentSearchTool": {
+      "timestamp": "2025-05-31T13:07:19.258439",
+      "success": false,
+      "details": "Exception: FileContentSearchTool.execute() got an unexpected keyword argument 'path'",
+      "duration_seconds": 0.001021,
+      "status": "FAIL"
+    },
+    "WebApiCallTool": {
+      "timestamp": "2025-05-31T13:07:20.917707",
+      "success": true,
+      "details": "GET https://httpbin.org/get status 200",
+      "duration_seconds": 1.656287,
+      "status": "PASS"
+    },
+    "WebSearchTool": {
+      "timestamp": "2025-05-31T13:07:20.921695",
+      "success": false,
+      "details": "Exception: WebSearchTool.execute() got an unexpected keyword argument 'timeout'",
+      "duration_seconds": 0.0,
+      "status": "FAIL"
+    }
+  },
+  "summary": {
+    "total_tests": 6,
+    "passed": 4,
+    "failed": 2,
+    "success_rate": "66.7%",
+    "overall_status": "FAIL"
+  }
+}

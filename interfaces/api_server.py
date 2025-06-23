@@ -42,7 +42,7 @@ memory_system = MemorySystem()
 from integrations.decision_router import decision_router
 from integrations.advanced_decision_router import advanced_decision_router
 from integrations.cognitive_decision_integration import cognitive_decision_integration
-from integrations.langgraph_integration import langgraph_integrator
+# from integrations.langgraph_integration import langgraph_integrator  # TODO: Fix circular import
 from integrations.langgraph_state_manager import state_manager
 
 # Configure logging
@@ -357,12 +357,18 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
 # REST API endpoints
 @app.get("/api/v1/system/status")
 async def get_system_status(current_user: User = Depends(get_current_active_user)):
-    """Get the current system status"""
+    """Get the current system status"""    # Get integrator dynamically to avoid circular import
+    try:
+        from integrations.langgraph_integration import langgraph_integrator
+        active_workflows = len(langgraph_integrator.active_graphs)
+    except ImportError:
+        active_workflows = 0
+    
     return {
         "status": "online",
         "version": "1.0.0",
         "timestamp": time.time(),
-        "active_workflows": len(langgraph_integrator.active_graphs),
+        "active_workflows": active_workflows,
         "active_connections": len(connection_manager.active_connections)
     }
 
@@ -430,6 +436,9 @@ async def create_workflow(
     initial_context["created_at"] = time.time()
     
     try:
+        # Import integrator dynamically to avoid circular import
+        from integrations.langgraph_integration import langgraph_integrator
+        
         # Create a workflow using LangGraph integrator
         graph = await langgraph_integrator.create_workflow(
             workflow_type=config.type,
@@ -456,6 +465,9 @@ async def get_workflow_status(
     current_user: User = Depends(get_current_active_user)
 ):
     """Get the status of a workflow"""
+    # Import integrator dynamically to avoid circular import
+    from integrations.langgraph_integration import langgraph_integrator
+    
     # Check if workflow exists
     if workflow_id not in langgraph_integrator.active_graphs:
         raise HTTPException(status_code=404, detail="Workflow not found")
@@ -490,6 +502,9 @@ async def execute_workflow_step(
     current_user: User = Depends(get_current_active_user)
 ):
     """Execute a step in a workflow"""
+    # Import integrator dynamically to avoid circular import
+    from integrations.langgraph_integration import langgraph_integrator
+    
     # Check if workflow exists
     if workflow_id not in langgraph_integrator.active_graphs:
         raise HTTPException(status_code=404, detail="Workflow not found")
@@ -520,6 +535,9 @@ async def make_workflow_decision(
     current_user: User = Depends(get_current_active_user)
 ):
     """Make a decision in a workflow"""
+    # Import integrator dynamically to avoid circular import
+    from integrations.langgraph_integration import langgraph_integrator
+    
     # Check if workflow exists
     if workflow_id not in langgraph_integrator.active_graphs:
         raise HTTPException(status_code=404, detail="Workflow not found")

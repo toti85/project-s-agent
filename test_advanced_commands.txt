@@ -1,0 +1,5 @@
+futtasd: dir *.py
+futtasd: powershell Get-Date
+futtasd: echo "Hello from Project-S"
+elemezd ezt a weboldalt: https://httpbin.org/json
+exit

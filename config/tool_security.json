@@ -1,0 +1,8 @@
+{
+  "allow_system_commands": true,
+  "allow_file_write": true,
+  "allow_network_access": true,
+  "restricted_paths": [],
+  "allowed_domains": ["*"],
+  "max_file_size": 104857600
+}

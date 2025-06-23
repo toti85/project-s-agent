@@ -1,0 +1,23 @@
+[
+  {
+    "id": "d073d910-645e-4035-ae98-926273f557c9",
+    "timestamp": "2025-05-24T23:00:50.978548",
+    "role": "user",
+    "content": "Explain the concept of recursion in programming with an example.",
+    "metadata": {
+      "task_type": "gyors_v\u00e1lasz"
+    }
+  },
+  {
+    "id": "72862e66-1602-424f-a0d0-d513f9e73c7a",
+    "timestamp": "2025-05-24T23:00:50.983043",
+    "role": "assistant",
+    "content": "Recursion in programming is a technique where a function calls itself in order to solve a problem. It is a powerful tool that allows for elegant and concise solutions to certain types of problems.\n\nHere is an example of recursion in programming using a classic example, the factorial function:\n\n```python\ndef factorial(n):\n    if n == 0:\n        return 1\n    else:\n        return n * factorial(n-1)\n```\n\nIn this example, the factorial function calculates the factorial of a non-negative integer `n`. The base case is when `n` is equal to 0, in which case the function returns 1. Otherwise, the function recursively calls itself with the argument `n-1` and multiplies the result by `n`. This process continues until the base case is reached.\n\nWhen we call `factorial(5)`, the function will calculate `5 * 4 * 3 * 2 * 1`, which equals 120. This example demonstrates how recursion can be used to solve a problem by breaking it down into smaller, simpler subproblems.",
+    "metadata": {
+      "model": "gpt-3.5-turbo",
+      "provider": "openai",
+      "multi_model_comparison": true,
+      "response_time": null
+    }
+  }
+]

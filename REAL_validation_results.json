@@ -1,0 +1,212 @@
+{
+  "test_session": {
+    "start_time": "2025-06-17T05:34:04.090334",
+    "system_claimed_status": "62.5% operational",
+    "restoration_claimed_status": "95%+ functional"
+  },
+  "tests": [
+    {
+      "test_name": "Multi-AI Request 1 (reasoning)",
+      "success": true,
+      "timestamp": "2025-06-17T05:35:11.858342",
+      "execution_time_seconds": 49.78871178627014,
+      "details": "Expected: reasoning AI (Claude Opus), Response: No response..."
+    },
+    {
+      "test_name": "Multi-AI Request 2 (coding)",
+      "success": true,
+      "timestamp": "2025-06-17T05:36:11.875136",
+      "execution_time_seconds": 60.01451110839844,
+      "details": "Expected: coding AI (CodeLlama), Response: No response..."
+    },
+    {
+      "test_name": "Multi-AI Request 3 (creative)",
+      "success": true,
+      "timestamp": "2025-06-17T05:36:29.244229",
+      "execution_time_seconds": 17.367403030395508,
+      "details": "Expected: creative AI (Claude Sonnet), Response: No response..."
+    },
+    {
+      "test_name": "Multi-AI Request 4 (calculation)",
+      "success": true,
+      "timestamp": "2025-06-17T05:37:29.251753",
+      "execution_time_seconds": 60.006572246551514,
+      "details": "Expected: fast AI (Llama3), Response: No response..."
+    },
+    {
+      "test_name": "Tool Registry Initialization",
+      "success": true,
+      "timestamp": "2025-06-17T05:37:35.635286",
+      "execution_time_seconds": null,
+      "details": "Available tools: 13, Tools: ['CodeExecutionTool', 'PythonModuleInfoTool', 'FileContentSearchTool', 'FileInfoTool', 'FileReadTool']..."
+    },
+    {
+      "test_name": "Complex Tool Automation",
+      "success": true,
+      "timestamp": "2025-06-17T05:37:35.646591",
+      "execution_time_seconds": 0.00929880142211914,
+      "details": "Multi-tool workflow result: {'request_id': 'req_1750127855_0', 'processing_time': 0.008288383483886719, 'timestamp': '2025-06-17T05:37:35.645580', 'status': 'success', 'result': {'error': 'Workflow execution system not available..."
+    },
+    {
+      "test_name": "LangGraph State Manager",
+      "success": true,
+      "timestamp": "2025-06-17T05:37:35.696426",
+      "execution_time_seconds": null,
+      "details": "Active sessions: 46, Expected: 46"
+    },
+    {
+      "test_name": "Conversational Step 1",
+      "success": true,
+      "timestamp": "2025-06-17T05:38:04.230375",
+      "execution_time_seconds": 21.23210597038269,
+      "details": "State-aware response: {'task_id': 'test_conversation_001', 'status': 'completed', 'completed_at': '2025-06-17T05:38:04.230..."
+    },
+    {
+      "test_name": "Conversational Step 2",
+      "success": true,
+      "timestamp": "2025-06-17T05:38:18.630603",
+      "execution_time_seconds": 14.397193431854248,
+      "details": "State-aware response: {'task_id': 'test_conversation_001', 'status': 'completed', 'completed_at': '2025-06-17T05:38:18.630..."
+    },
+    {
+      "test_name": "Conversational Step 3",
+      "success": true,
+      "timestamp": "2025-06-17T05:38:32.981456",
+      "execution_time_seconds": 14.348862648010254,
+      "details": "State-aware response: {'task_id': 'test_conversation_001', 'status': 'completed', 'completed_at': '2025-06-17T05:38:32.980..."
+    },
+    {
+      "test_name": "Conversational Step 4",
+      "success": true,
+      "timestamp": "2025-06-17T05:38:34.872877",
+      "execution_time_seconds": 1.8884189128875732,
+      "details": "State-aware response: {'task_id': 'test_conversation_001', 'status': 'completed', 'completed_at': '2025-06-17T05:38:34.871..."
+    },
+    {
+      "test_name": "Multi-Step Workflow",
+      "success": false,
+      "timestamp": "2025-06-17T05:38:34.903060",
+      "execution_time_seconds": null,
+      "details": "Error: object of type 'int' has no len()"
+    },
+    {
+      "test_name": "Concurrent Request Processing",
+      "success": true,
+      "timestamp": "2025-06-17T05:39:20.754660",
+      "execution_time_seconds": 45.84560489654541,
+      "details": "Success rate: 100.0% (5/5)"
+    },
+    {
+      "test_name": "Average Response Time",
+      "success": false,
+      "timestamp": "2025-06-17T05:41:47.504192",
+      "execution_time_seconds": 48.91617727279663,
+      "details": "Average: 48.92s (target: <30s)"
+    }
+  ],
+  "summary": {
+    "total_tests": 14,
+    "passed_tests": 12,
+    "failed_tests": 2,
+    "success_rate_percent": 85.71428571428571,
+    "detailed_results": {
+      "Multi-AI Provider Routing": {
+        "result": [
+          {
+            "request_type": "reasoning",
+            "success": true,
+            "execution_time": 49.78871178627014,
+            "response_preview": "No response"
+          },
+          {
+            "request_type": "coding",
+            "success": true,
+            "execution_time": 60.01451110839844,
+            "response_preview": "No response"
+          },
+          {
+            "request_type": "creative",
+            "success": true,
+            "execution_time": 17.367403030395508,
+            "response_preview": "No response"
+          },
+          {
+            "request_type": "calculation",
+            "success": true,
+            "execution_time": 60.006572246551514,
+            "response_preview": "No response"
+          }
+        ],
+        "execution_time": 205.15978455543518
+      },
+      "Tool Orchestration": {
+        "result": {
+          "tool_count": 13,
+          "available_tools": [
+            "CodeExecutionTool",
+            "PythonModuleInfoTool",
+            "FileContentSearchTool",
+            "FileInfoTool",
+            "FileReadTool",
+            "FileSearchTool",
+            "FileWriteTool",
+            "EnvironmentVariableTool",
+            "SystemCommandTool",
+            "SystemInfoTool",
+            "WebApiCallTool",
+            "WebPageFetchTool",
+            "WebSearchTool"
+          ],
+          "complex_workflow_success": true,
+          "workflow_execution_time": 0.00929880142211914
+        },
+        "execution_time": 6.393835544586182
+      },
+      "LangGraph State Management": {
+        "result": {
+          "session_count": 46,
+          "conversation_results": [
+            {
+              "step": 1,
+              "success": true,
+              "execution_time": 21.23210597038269
+            },
+            {
+              "step": 2,
+              "success": true,
+              "execution_time": 14.397193431854248
+            },
+            {
+              "step": 3,
+              "success": true,
+              "execution_time": 14.348862648010254
+            },
+            {
+              "step": 4,
+              "success": true,
+              "execution_time": 1.8884189128875732
+            }
+          ],
+          "state_preservation": true
+        },
+        "execution_time": 59.22629261016846
+      },
+      "Multi-Step Workflow": {
+        "result": {
+          "error": "object of type 'int' has no len()"
+        },
+        "execution_time": 0.028153657913208008
+      },
+      "Performance Under Load": {
+        "result": {
+          "concurrent_success_rate": 1.0,
+          "concurrent_execution_time": 45.84560489654541,
+          "average_response_time": 48.91617727279663,
+          "performance_acceptable": false
+        },
+        "execution_time": 192.6011574268341
+      }
+    },
+    "end_time": "2025-06-17T05:41:47.507202"
+  }
+}

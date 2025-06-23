@@ -25,6 +25,7 @@ class CommandRouter:
         self.register("CMD", self.ai_handler.handle_cmd_command)
         self.register("CODE", self.ai_handler.handle_code_command) 
         self.register("FILE", self.ai_handler.handle_file_command)
+        self.register("WORKFLOW", self.ai_handler.handle_workflow_command)
         # Temporarily comment out PYTHON_FILE registration to allow system startup
         # self.register("PYTHON_FILE", self.ai_handler.handle_python_file_command)
 

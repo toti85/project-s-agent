@@ -1,0 +1,120 @@
+S C:\project_s_agent> python cli_main.py ask "Keszts egy egyszeru hello_world.py fajlt ami kirja hogy 'Hello Project-S!'"
+
+[2025-05-28 14:23:18] [INFO] core.event_bus - EventBus initialized
+[2025-05-28 14:23:18] [INFO] integrations.persistent_state_manager - Loaded 44 active sessions
+[2025-05-28 14:23:18] [WARNING] integrations.persistent_state_manager - LangGraph not available, checkpoint functionality 
+will be limited
+[2025-05-28 14:23:18] [INFO] integrations.persistent_state_manager - Persistent state manager initialized with storage at 
+C:\project_s_agent\memory\state
+[2025-05-28 14:23:19] [WARNING] integrations.multi_model_ai_client - Anthropic service enabled but no API key found
+[2025-05-28 14:23:19] [INFO] integrations.multi_model_ai_client - Model configurations loaded successfully: 6 providers
+[2025-05-28 14:23:19] [INFO] core.event_bus - Subscriber added for event type: tool.executed     
+[2025-05-28 14:23:19] [INFO] core.event_bus - Subscriber added for event type: security.violation
+[2025-05-28 14:23:19] [INFO] tools.tool_registry - Biztonsági konfiguráció betöltve: C:\project_s_agent\config\tool_security.json
+[2025-05-28 14:23:19] [INFO] tools.tool_registry - Tool Registry inicializálva
+[2025-05-28 14:23:20] [INFO] integrations.simplified_model_manager - Tool registry available for execution
+[2025-05-28 14:23:20] [INFO] integrations.simplified_model_manager - Simplified Model Manager initialized
+[2025-05-28 14:23:25] [INFO] integrations.advanced_langgraph_workflow - Fejlett LangGraph workflow inicializálva
+[2025-05-28 14:23:25] [INFO] core.event_bus - Subscriber added for event type: session.created
+[2025-05-28 14:23:25] [INFO] core.event_bus - Subscriber added for event type: session.ended
+[2025-05-28 14:23:25] [INFO] integrations.session_manager - Session manager initialized
+[2025-05-28 14:23:25] [INFO] integrations.core_execution_bridge - CoreExecutionBridge initialized
+[2025-05-28 14:23:25] [INFO] integrations.model_manager - Tool registry imported successfully - tools available for execution
+[2025-05-28 14:23:25] [INFO] intelligent_workflow - ✅ Project-S eszközök importálása sikeres
+[2025-05-28 14:23:26] [INFO] intelligent_workflow - ✅ LangGraph importálása sikeres
+[2025-05-28 14:23:26] [INFO] integrations.intelligent_workflow_integration - ✅ Intelligent workflow system imported succes
+sfully
+[2025-05-28 14:23:26] [INFO] integrations.intelligent_workflow_integration - Intelligent Workflow Orchestrator initialized with 1 workflows
+[2025-05-28 14:23:26] [INFO] integrations.model_manager - ✅ Intelligent workflow integration imported successfully        
+[2025-05-28 14:23:26] [INFO] integrations.model_manager - Alapértelmezett modell konfigurációból betöltve: qwen3-235b     
+[2025-05-28 14:23:26] [INFO] integrations.model_manager - Modell menedzser inicializálva
+[2025-05-28 14:23:26] [INFO] ProjectS-CLI - Initializing Project-S CLI...
+[2025-05-28 14:23:26] [INFO] core.event_bus - Subscriber added for event type: command.received
+[2025-05-28 14:23:26] [INFO] core.event_bus - Subscriber added for event type: command.processing
+[2025-05-28 14:23:26] [INFO] core.event_bus - Subscriber added for event type: command.processed
+[2025-05-28 14:23:26] [INFO] core.event_bus - Subscriber added for event type: response.generating
+[2025-05-28 14:23:26] [INFO] core.event_bus - Subscriber added for event type: response.ready
+[2025-05-28 14:23:26] [INFO] core.event_bus - Default event handlers registered
+[2025-05-28 14:23:26] [INFO] ProjectS-CLI - Event bus initialized
+[2025-05-28 14:23:26] [INFO] integrations.advanced_langgraph_workflow - Fejlett LangGraph workflow inicializálva
+[2025-05-28 14:23:26] [INFO] ProjectS-CLI - LangGraph workflow initialized
+[2025-05-28 14:23:26] [INFO] ProjectS-CLI - Project-S CLI initialization complete
+
+================================================================================
+🚀 PROJECT-S UNIFIED CLI v1.0.0
+================================================================================
+🤖 Multi-Model AI System | 🔧 File Operations | 🌐 Web Tools | ⚡ Workflows
+📅 Session: 2025-05-28 14:23:26
+--------------------------------------------------------------------------------
+[2025-05-28 14:23:26] [INFO] ProjectS-CLI - Processing ASK command: Készts egy egyszerű hello_world.py fájlt ami kirja... 
+[2025-05-28 14:23:26] [INFO] integrations.persistent_state_manager - Created new session: dad56c60-ee02-423f-92b5-90c53922eadd
+[2025-05-28 14:23:26] [INFO] core.event_bus - Publishing event: session.created
+[2025-05-28 14:23:26] [INFO] integrations.session_manager - Session created and tracked: dad56c60-ee02-423f-92b5-90c53922eadd
+[2025-05-28 14:23:26] [INFO] integrations.multi_model_ai_client - Using default model for task 'planning': qwen3-235b     
+[2025-05-28 14:23:26] [INFO] integrations.model_manager - A(z) 'planning' feladat típushoz a(z) 'qwen3-235b' modellt választottuk
+[2025-05-28 14:23:32] [INFO] httpx - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+[2025-05-28 14:25:29] [INFO] integrations.model_manager - AI parancs elemzés: COMMAND_TYPE: FILE  
+COMMAND_ACTION: write file
+PARAMETERS: filename: hello_world.py, content: 'print("Helló Project-S!")'...
+[2025-05-28 14:25:29] [INFO] integrations.model_manager - Észlelt parancs: FILE, akció: write file, paraméterek: {'content': 'content: \'print("Helló Project-S!")\''}
+[2025-05-28 14:25:29] [INFO] integrations.core_execution_bridge - Initializing core_old execution system...
+[2025-05-28 14:25:30] [INFO] integrations.vscode_interface - VSCode interface initialized
+[2025-05-28 14:25:30] [INFO] VSCode_Cline_Controller - VSCode Cline environment configured successfully
+[2025-05-28 14:25:32] [WARNING] VSCode_Cline_Controller - VSCode Cline extension not detected. Installing...
+[2025-05-28 14:25:32] [INFO] VSCode_Cline_Controller - Installing VSCode Cline extension...
+[2025-05-28 14:25:34] [INFO] VSCode_Cline_Controller - VSCode Cline extension installed successfully
+[2025-05-28 14:25:34] [INFO] VSCode_Cline_Controller - VSCode Cline controller initialized with model: qwen/qwen-72b
+[2025-05-28 14:25:34] [INFO] core.ai_command_handler - AI Command Handler initialized with Simplified ModelManager for proper model routing
+[2025-05-28 14:25:34] [INFO] integrations.vscode_interface - VSCode interface initialized
+[2025-05-28 14:25:34] [INFO] VSCode_Cline_Controller - VSCode Cline environment configured successfully
+[2025-05-28 14:25:35] [WARNING] VSCode_Cline_Controller - VSCode Cline extension not detected. Installing...
+[2025-05-28 14:25:35] [INFO] VSCode_Cline_Controller - Installing VSCode Cline extension...
+[2025-05-28 14:25:38] [INFO] VSCode_Cline_Controller - VSCode Cline extension installed successfully
+[2025-05-28 14:25:38] [INFO] VSCode_Cline_Controller - VSCode Cline controller initialized with model: qwen/qwen-72b
+[2025-05-28 14:25:38] [INFO] core.command_router - Registered handler for command type: ASK
+[Router] Registered handler for: ASK
+[2025-05-28 14:25:38] [INFO] core.command_router - Registered handler for command type: CMD
+[Router] Registered handler for: CMD
+[2025-05-28 14:25:38] [INFO] core.command_router - Registered handler for command type: CODE
+[Router] Registered handler for: CODE
+[2025-05-28 14:25:38] [INFO] core.command_router - Registered handler for command type: FILE
+[Router] Registered handler for: FILE
+[2025-05-28 14:25:38] [INFO] central_executor - CentralExecutor initialized
+[2025-05-28 14:25:38] [INFO] core.event_bus - Subscriber added for event type: command.submitted
+[2025-05-28 14:25:38] [INFO] command_router - Registered handler for command type: ASK
+[Router] Registered handler for: ASK
+[2025-05-28 14:25:38] [INFO] command_router - Registered handler for command type: CMD
+[Router] Registered handler for: CMD
+[2025-05-28 14:25:38] [INFO] command_router - Registered handler for command type: CODE
+[Router] Registered handler for: CODE
+[2025-05-28 14:25:38] [INFO] command_router - Registered handler for command type: FILE
+[Router] Registered handler for: FILE
+[2025-05-28 14:25:38] [INFO] central_executor - CentralExecutor initialized
+[2025-05-28 14:25:38] [INFO] core.event_bus - Subscriber added for event type: command.submitted
+[2025-05-28 14:25:38] [INFO] central_executor - CentralExecutor initialization
+[2025-05-28 14:25:38] [INFO] integrations.core_execution_bridge - ✅ Core_old execution system initialized successfully (dy
+namic import)
+[2025-05-28 14:25:38] [INFO] integrations.core_execution_bridge - Executing FILE command via core_old system
+[14:25:38] Starting execution of central_executor.execute
+[2025-05-28 14:25:38] [INFO] root -
+[2025-05-28 14:25:38] [INFO] central_executor - Executing command: FILE
+[2025-05-28 14:25:38] [INFO] root -
+[2025-05-28 14:25:38] [INFO] core.command_router - Received command of type: FILE
+[Router] Processing command: FILE
+[2025-05-28 14:25:38] [INFO] core.event_bus - Publishing event: command.received
+[14:25:38] Starting execution of core.ai_command_handler.handle_file_command
+[2025-05-28 14:25:38] [INFO] core.ai_command_handler - Processing file write operation
+[14:25:38] Completed core.ai_command_handler.handle_file_command in 0.0040 seconds
+[2025-05-28 14:25:38] [INFO] core.event_bus - Publishing event: command.completed
+[2025-05-28 14:25:38] [INFO] core.event_bus - No subscribers for event type: command.completed
+[2025-05-28 14:25:38] [INFO] root -
+[2025-05-28 14:25:38] [INFO] core.event_bus - Publishing event: command.executed
+[2025-05-28 14:25:38] [INFO] core.event_bus - No subscribers for event type: command.executed
+[2025-05-28 14:25:38] [INFO] root -
+[14:25:38] Completed central_executor.execute in 0.0180 seconds
+[2025-05-28 14:25:38] [INFO] integrations.core_execution_bridge - Command executed successfully: FILE
+[2025-05-28 14:25:45] [INFO] httpx - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+
+📋 RESULT:
+----------------------------------------
+✅ File operation successful: project_s_output.txt

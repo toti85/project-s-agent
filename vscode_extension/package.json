@@ -1,0 +1,267 @@
+{
+  "name": "project-s-vscode",
+  "displayName": "Project-S VSCode Integration",
+  "description": "VSCode extension for Project-S hybrid AI system integration",
+  "version": "0.1.0",
+  "publisher": "project-s",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other",
+    "Programming Languages",
+    "Machine Learning",
+    "Snippets"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:project-s.connect",
+    "onCommand:project-s.analyze",
+    "onCommand:project-s.generate",
+    "onCommand:project-s.document",
+    "onView:project-s-sidebar"
+  ],
+  "main": "./out/extension.js",
+  "icon": "media/project-s-icon.png",
+  "contributes": {    "commands": [
+      {
+        "command": "project-s.connect",
+        "title": "Connect to Project-S Server",
+        "category": "Project-S"
+      },
+      {
+        "command": "project-s.analyze",
+        "title": "Analyze Current Code",
+        "category": "Project-S"
+      },
+      {
+        "command": "project-s.generate",
+        "title": "Generate Code",
+        "category": "Project-S"
+      },
+      {
+        "command": "project-s.document",
+        "title": "Document Code",
+        "category": "Project-S"
+      },
+      {
+        "command": "project-s.createWorkflow",
+        "title": "Create New Workflow",
+        "category": "Project-S"
+      },
+      {
+        "command": "project-s.executeWorkflow",
+        "title": "Execute Workflow",
+        "category": "Project-S"
+      },
+      {
+        "command": "project-s.settings",
+        "title": "Open Settings",
+        "category": "Project-S"
+      },
+      {
+        "command": "project-s.showOutput",
+        "title": "Show Output Panel",
+        "category": "Project-S"
+      },
+      {
+        "command": "project-s.analyzeSelected",
+        "title": "Analyze Selected Code",
+        "category": "Project-S"
+      },
+      {
+        "command": "project-s.documentSelected",
+        "title": "Document Selected Code",
+        "category": "Project-S"
+      },
+      {
+        "command": "project-s.toggleCodeLens",
+        "title": "Toggle CodeLens",
+        "category": "Project-S"
+      },
+      {
+        "command": "project-s.toggleIntelliSense",
+        "title": "Toggle IntelliSense",
+        "category": "Project-S"
+      },
+      {
+        "command": "project-s.showWorkflowsQuickPick",
+        "title": "Show Workflows Quick Pick",
+        "category": "Project-S"
+      },
+      {
+        "command": "project-s.analyzeSelected",
+        "title": "Analyze Selected Code",
+        "category": "Project-S"
+      },
+      {
+        "command": "project-s.documentSelected",
+        "title": "Document Selected Code",
+        "category": "Project-S"
+      },
+      {
+        "command": "project-s.toggleCodeLens",
+        "title": "Toggle CodeLens",
+        "category": "Project-S"
+      },
+      {
+        "command": "project-s.toggleIntelliSense",
+        "title": "Toggle IntelliSense",
+        "category": "Project-S"
+      },
+      {
+        "command": "project-s.showWorkflowsQuickPick",
+        "title": "Show Workflows Quick Pick",
+        "category": "Project-S"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "project-s-sidebar",
+          "title": "Project-S",
+          "icon": "media/sidebar-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "project-s-sidebar": [
+        {
+          "id": "project-s-workflows",
+          "name": "Workflows"
+        },
+        {
+          "id": "project-s-tools",
+          "name": "Tools"
+        },
+        {
+          "id": "project-s-history",
+          "name": "History"
+        }
+      ]
+    },
+    "menus": {
+      "editor/context": [
+        {
+          "command": "project-s.analyze",
+          "when": "editorTextFocus",
+          "group": "9_cutcopypaste"
+        },
+        {
+          "command": "project-s.generate",
+          "when": "editorTextFocus",
+          "group": "9_cutcopypaste"
+        },
+        {
+          "command": "project-s.document",
+          "when": "editorTextFocus",
+          "group": "9_cutcopypaste"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "project-s.createWorkflow",
+          "when": "view == project-s-workflows",
+          "group": "navigation"
+        }
+      ]
+    },    "configuration": {
+      "title": "Project-S",
+      "properties": {
+        "project-s.serverUrl": {
+          "type": "string",
+          "default": "http://localhost:8000",
+          "description": "URL of the Project-S API server"
+        },
+        "project-s.authToken": {
+          "type": "string",
+          "default": "",
+          "description": "Authentication token for the Project-S API server"
+        },
+        "project-s.username": {
+          "type": "string",
+          "default": "",
+          "description": "Username for Project-S API authentication"
+        },
+        "project-s.autoConnect": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically connect to Project-S API server on startup"
+        },
+        "project-s.showNotifications": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show notification messages for Project-S operations"
+        },
+        "project-s.enableCodeLens": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show CodeLens for Project-S features in the editor"
+        },
+        "project-s.enableIntelliSense": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable Project-S IntelliSense code completions"
+        },
+        "project-s.codeCompletionDelay": {
+          "type": "number",
+          "default": 500,
+          "description": "Delay in milliseconds before requesting code completions"
+        },
+        "project-s.maxCompletionResults": {
+          "type": "number",
+          "default": 10,
+          "description": "Maximum number of completion results to show"
+        },
+        "project-s.languagePreferences": {
+          "type": "object",
+          "default": {},
+          "description": "Language-specific preferences for code generation and analysis",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "model": {
+                "type": "string",
+                "description": "Model to use for this language"
+              },
+              "style": {
+                "type": "string",
+                "description": "Coding style preference for this language"
+              }
+            }
+          }
+        }
+      }
+    }
+  },  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts",
+    "pretest": "npm run compile && npm run lint",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package -o dist/project-s-vscode-extension.vsix",
+    "package:script": "node ./scripts/package-extension.js",
+    "publish": "vsce publish",
+    "clean": "rimraf out dist",
+    "prepublish": "npm run clean && npm run compile"
+  },"devDependencies": {
+    "@types/glob": "^8.0.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "16.x",
+    "@types/sinon": "^17.0.0",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^5.42.0",
+    "@typescript-eslint/parser": "^5.42.0",
+    "@vscode/test-electron": "^2.3.9",
+    "eslint": "^8.26.0",    "glob": "^8.0.3",
+    "mocha": "^10.2.0",
+    "rimraf": "^5.0.5",
+    "sinon": "^17.0.1",
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "axios": "^1.6.5",
+    "ws": "^8.16.0"
+  }
+}

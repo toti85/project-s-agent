@@ -288,8 +288,6 @@ async def register_diagnostic_commands():
                 "status": "error",
                 "message": f"Unknown operation: {operation}"
             }
-    
-    # Register the handler
+      # Register the handler
     router.register("DIAGNOSTICS", handle_diagnostic_command)
     logger.info("Diagnostic commands registered")
-"""

@@ -1,0 +1,7 @@
+CMD Test Started
+CMD handler loaded successfully
+CMD handler instance created
+Dir command return code: 0
+Dir output length: 17676 chars
+All tests completed successfully
+CMD Test Finished

@@ -1,0 +1,36 @@
+# Project-S Minimális Konfiguráció
+
+# Alapbeállítások
+system:
+  name: "Project-S Minimal"
+  version: "0.1.0"
+  log_level: "info"
+  log_file: "logs/minimal_system.log"
+
+# LangGraph beállítások
+langgraph:
+  enabled: true
+  debug_mode: false
+
+# AI beállítások
+ai:
+  # AI szolgáltató (openai vagy openrouter)
+  provider: "openrouter"  # Alapértelmezett
+  
+  # OpenAI konfiguráció
+  openai:
+    model: "gpt-3.5-turbo"
+    temperature: 0.7
+    max_tokens: 500
+  
+  # OpenRouter konfiguráció
+  openrouter:
+    model: "gpt-3.5-turbo"  # Alapértelmezett, vagy használj: "qwen/qwen3-72b-instruct"
+    temperature: 0.7
+    max_tokens: 500
+
+# Rendszerüzenet az AI-hoz
+system_message: |
+  Te egy segítőkész asszisztens vagy a Project-S rendszerben.
+  A parancsokat professzionálisan és pontosan dolgozod fel.
+  Válaszaid informatívak és hasznosak.

@@ -1,0 +1,3 @@
+hozz létre minta fájlokat toti mappában
+rendszerezd a toti mappát
+exit

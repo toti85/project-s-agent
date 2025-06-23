@@ -533,9 +533,9 @@ document.addEventListener('DOMContentLoaded', initDashboard);
         # Update timestamp
         now = datetime.now()
         self._cache["last_update"] = now
-        
-        # System metrics
-        metrics = diagnostics_manager.get_current_metrics() if hasattr(diagnostics_manager, "get_current_metrics") else {}
+          # System metrics
+        metrics_obj = diagnostics_manager.get_current_metrics() if hasattr(diagnostics_manager, "get_current_metrics") else None
+        metrics = metrics_obj.to_dict() if metrics_obj and hasattr(metrics_obj, "to_dict") else {}
         self._cache["system_metrics"] = metrics
         
         # Error statistics
@@ -565,8 +565,7 @@ document.addEventListener('DOMContentLoaded', initDashboard);
             if len(self._cache["history"]) > max_history:
                 self._cache["history"] = self._cache["history"][-max_history:]
     
-    # API route handlers
-    async def _handle_system_metrics(self, request):
+    # API route handlers    async def _handle_system_metrics(self, request):
         """Handle request for system metrics"""
         metrics = self._cache["system_metrics"]
         return web.json_response(metrics)
@@ -579,7 +578,11 @@ document.addEventListener('DOMContentLoaded', initDashboard);
         if isinstance(stats, dict):
             # Calculate error rate per hour
             total_errors = stats.get("total_errors", 0)
-            uptime_seconds = self._cache["system_metrics"].get("process_uptime_seconds", 3600)
+            system_metrics = self._cache["system_metrics"]
+            if isinstance(system_metrics, dict):
+                uptime_seconds = system_metrics.get("process_uptime_seconds", 3600)
+            else:
+                uptime_seconds = getattr(system_metrics, "process_uptime_seconds", 3600) if system_metrics else 3600
             hours = max(1, uptime_seconds / 3600)
             stats["error_rate"] = total_errors / hours
         

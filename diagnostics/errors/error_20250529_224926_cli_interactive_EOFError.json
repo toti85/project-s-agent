@@ -1,0 +1,13 @@
+{
+  "error_type": "EOFError",
+  "message": "",
+  "timestamp": "2025-05-29T22:49:26.600984",
+  "traceback": "Traceback (most recent call last):\n  File \"C:\\project_s_agent\\cli_main.py\", line 319, in run_interactive_mode\n    user_input = input(\"Project-S> \").strip()\n                 ^^^^^^^^^^^^^^^^^^^^\nEOFError\n",
+  "component": "cli_interactive",
+  "workflow_id": null,
+  "user_id": null,
+  "session_id": null,
+  "request_id": null,
+  "related_errors": [],
+  "additional_info": {}
+}

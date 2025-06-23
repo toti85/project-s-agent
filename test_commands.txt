@@ -1,0 +1,2 @@
+hozz létre egy teszt_file.txt fájlt
+exit

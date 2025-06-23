@@ -1,0 +1,26 @@
+PROJECT-S SYSTEM UPDATE LOG
+=============================
+Update Date: 2025-06-23 16:25:40
+System Info:
+Host Name:                     DESKTOP-VAR2T1H
+OS Name:                       Microsoft Windows 11 Pro
+OS Version:                    10.0.26100 N/A Build 26100
+OS Manufacturer:               Microsoft Corporation
+OS Configuration:              Standalone Workstation
+OS Build Type:                 Multiprocessor Free
+Registered Owner:              Admin
+Registered Organization:       
+Product ID:                    00330-52251-41005-AAOEM
+Original Install Date:         2025. 06. 21., 19:14:27
+System Boot Time:              2025. 06. 21., 19:09:15
+System Manufacturer:           HP
+System Model:                  HP ZBook 17 G5
+System Type:                   x64-based PC
+Processor(s):                  1 Processor(s) Installed.
+                               [01]: Intel64 Family 6 Model 158 Stepping 10 GenuineIntel ~700 Mhz
+BIOS Version:                  HP Q70 Ver. 01.29.01, 2024. 09. 24.
+Windows Directory:             C:\WINDOWS
+System Directory:              C:\WINDOWS\system32
+Boot Dev...
+
+Status: Starting Windows Update process
